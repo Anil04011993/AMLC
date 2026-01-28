@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace AMLRS.Core.Domains.Users.Enums
+{
+    public enum Gender
+    {
+        Male,
+        Female,
+        Non_binary,
+        Other,
+        Prefer_not_to_say
+    }
+
+}

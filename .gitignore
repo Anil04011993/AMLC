@@ -1,0 +1,20 @@
+# Build outputs
+bin/
+obj/
+
+# Visual Studio
+.vS/
+.vs/
+*.user
+*.suo
+
+# Rider / VSCode
+.idea/
+.vscode/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

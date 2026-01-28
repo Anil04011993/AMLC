@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="AMLRS.Api/AMLRS.Api.csproj" />
+  <Project Path="AMLRS.Application/AMLRS.Application.csproj" />
+  <Project Path="AMLRS.Core/AMLRS.Core.csproj" />
+  <Project Path="AMLRS.Infrastructure/AMLRS.Infrastructure.csproj" />
+  <Project Path="AMLRS.Tests/AMLRS.Tests.csproj" Id="86dfea2c-1143-4ed4-b0b4-a63b1e722cc8" />
+</Solution>
