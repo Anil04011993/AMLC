@@ -16,7 +16,8 @@ namespace AMLRS.Infrastructure.Repositories
         }
 
         public async Task<User?> LoginAsync(string email, string password)
-        {
+        {        
+
             var user = await _context.Users
                 .AsNoTracking()
                 .Where(u => u.Email == email && u.Password == password)

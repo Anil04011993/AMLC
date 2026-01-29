@@ -1,7 +1,11 @@
 using AMLRS.Api;
 using AMLRS.Api.Middleware;
 using AMLRS.Api.Middleware.AMLRS.Api.Middleware;
+using AMLRS.Application.Interfaces.Services;
+using AMLRS.Application.Services;
+using AMLRS.Core.Abstraction.Reposotory;
 using AMLRS.Infrastructure.Logging;
+using AMLRS.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -20,6 +24,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAppDI(builder.Configuration);
+
+// Register core application services (ensure controllers can resolve dependencies)
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddOpenApi();
 
