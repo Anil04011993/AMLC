@@ -80,19 +80,19 @@ namespace AMLRS.Infrastructure.Data
 
         public DbSet<EnhancedBeneficialOwnershipMetadata> EnhancedBeneficialOwnershipMetadatas { get; set; }
 
-        public DbSet<Auth_and_Security> Auth_and_Securities { get; set; }
-        public DbSet<Role_and_permission> Role_and_permissions { get; set; }
-        public DbSet<Notification_and_preferences> Notification_and_preferences { get; set; }
-        public DbSet<Compliance_Training> Compliance_Trainings { get; set; }
-        public DbSet<Audit_Metadata> Audit_Metadata { get; set; }
-        public DbSet<Optional_UX_Enhancements> Optional_UX_Enhancements { get; set; }
-        public DbSet<Access_Control> Access_Control_ABAC { get; set; }
-        public DbSet<Governance_Compliance_Metadata> Governance_Compliance_Metadata { get; set; }
-        public DbSet<Operational_Behavior_Signals> Operational_Behavior_Signals { get; set; }
-        public DbSet<Integration_External_Identity> Integration_External_Identities { get; set; }
-        public DbSet<Notifications_Alerts> Notifications_Alerts { get; set; }
-        public DbSet<Localization_UX> Localization_UX { get; set; }
-        public DbSet<Decommission_Lifecycle> Decommission_Lifecycles { get; set; }
+        //public DbSet<Auth_and_Security> Auth_and_Securities { get; set; }
+        //public DbSet<Role_and_permission> Role_and_permissions { get; set; }
+        //public DbSet<Notification_and_preferences> Notification_and_preferences { get; set; }
+        //public DbSet<Compliance_Training> Compliance_Trainings { get; set; }
+        //public DbSet<Audit_Metadata> Audit_Metadata { get; set; }
+        //public DbSet<Optional_UX_Enhancements> Optional_UX_Enhancements { get; set; }
+        //public DbSet<Access_Control> Access_Control_ABAC { get; set; }
+        //public DbSet<Governance_Compliance_Metadata> Governance_Compliance_Metadata { get; set; }
+        //public DbSet<Operational_Behavior_Signals> Operational_Behavior_Signals { get; set; }
+        //public DbSet<Integration_External_Identity> Integration_External_Identities { get; set; }
+        //public DbSet<Notifications_Alerts> Notifications_Alerts { get; set; }
+        //public DbSet<Localization_UX> Localization_UX { get; set; }
+        //public DbSet<Decommission_Lifecycle> Decommission_Lifecycles { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

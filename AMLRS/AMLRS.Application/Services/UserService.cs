@@ -1,6 +1,7 @@
-﻿using AMLRS.Application.Abstraction;
-using AMLRS.Application.DTOs;
+﻿using AMLRS.Application.DTOs;
 using AMLRS.Application.Interfaces.Services;
+using AMLRS.Core.Abstraction.Reposotory;
+using AMLRS.Core.Domains.Users.Entities;
 using Microsoft.Extensions.Configuration;
 
 namespace AMLRS.Application.Services
@@ -16,9 +17,14 @@ namespace AMLRS.Application.Services
             _configuration = configuration;
         }
 
-        public async Task<UserResponseDto?> LoginAsync(UserLoginRequestDto login)
+        public async Task<User?> LoginAsync(UserLoginRequestDto login)
         {
-            var user = await _userRepository.LoginAsync(login);
+            if (string.IsNullOrWhiteSpace(login.Email) || string.IsNullOrWhiteSpace(login.Password))
+            {
+                return null;
+            }
+
+            var user = await _userRepository.LoginAsync(login.Email, login.Password);
             if (user == null) return null;
 
             // No token generation — simple login returning user details

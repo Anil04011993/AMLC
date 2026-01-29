@@ -1,12 +1,8 @@
-﻿using AMLRS.Application.Abstraction;
-using AMLRS.Application.DTOs;
+﻿using AMLRS.Core.Abstraction.Reposotory;
 using AMLRS.Core.Domains.Users.Entities;
 using AMLRS.Infrastructure.Data;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace AMLRS.Infrastructure.Repositories
 {
@@ -19,46 +15,32 @@ namespace AMLRS.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<UserResponseDto?> LoginAsync(UserLoginRequestDto login)
-        {
-            if (string.IsNullOrWhiteSpace(login.Email) || string.IsNullOrWhiteSpace(login.Password))
-                return null;
+        public async Task<User?> LoginAsync(string email, string password)
+        {        
 
             var user = await _context.Users
                 .AsNoTracking()
-                .Where(u => u.Email == login.Email)
-                .Select(u => new
-                {
-                    u.UserId,
-                    u.FirstName,
-                    u.LastName,
-                    u.Email,
-                    u.PhoneNumber,
-                    u.PreferredName,
-                    u.Auth_and_Security.PasswordHash 
+                .Where(u => u.Email == email && u.Password == password)
+               .FirstOrDefaultAsync();
 
-                })
-                .FirstOrDefaultAsync();
-
-            if (user == null || string.IsNullOrEmpty(user.PasswordHash) )
-
+            if (user == null || string.IsNullOrEmpty(user.Password))
                 return null;
 
-            var hasher= new PasswordHasher<object>();
-            var verify= hasher.VerifyHashedPassword(null, user.PasswordHash, login.Password);
-            if (verify == PasswordVerificationResult.Failed)
-                return null;
+            //var hasher= new PasswordHasher<object>();
+            //var verify= hasher.VerifyHashedPassword(null, user.Password, password);
+            //if (verify == PasswordVerificationResult.Failed)
+            //    return null;
 
-          
-
-            return new UserResponseDto
+            return new User
             {
                 UserId = user.UserId,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-                PreferredName = user.PreferredName
+                PreferredName = user.PreferredName,
+                Password = user.Password,
+                Gender = Core.Domains.Users.Enums.Gender.Male
             };
         }
     }
