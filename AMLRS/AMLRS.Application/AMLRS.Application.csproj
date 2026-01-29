@@ -17,4 +17,8 @@
     <ProjectReference Include="..\AMLRS.Core\AMLRS.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Abstraction\" />
+  </ItemGroup>
+
 </Project>
