@@ -8,6 +8,9 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 
 SerilogConfiguration.Configure(builder.Configuration);
+//// Load AWS options from config
+//builder.Services.AddDefaultAWSOptions(
+//    builder.Configuration.GetAWSOptions());
 
 builder.Host.UseSerilog();
 

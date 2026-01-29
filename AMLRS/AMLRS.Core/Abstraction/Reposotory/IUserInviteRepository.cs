@@ -1,0 +1,15 @@
+﻿using AMLRS.Core.Domains.Users.Entities.Register;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace AMLRS.Core.Abstraction.Reposotory
+{
+    public interface IUserInviteRepository
+    {
+        Task<UserInvite?> GetByTokenAsync(string token);
+        Task AddAsync(UserInvite invite);
+        Task MarkUsedAsync(UserInvite invite);
+    }
+
+}

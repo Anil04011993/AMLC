@@ -3,6 +3,7 @@ using AMLRS.Core.Abstraction.Reposotory;
 using AMLRS.Core.Options;
 using AMLRS.Infrastructure.Data;
 using AMLRS.Infrastructure.Logging;
+using AMLRS.Infrastructure.Repositories;
 using AMLRS.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -25,6 +26,9 @@ namespace AMLRS.Infrastructure
             services.AddScoped<IDocumentRepository, DocumentRepository>();
             services.AddSingleton<ILogger>(Log.Logger);
             services.AddScoped<IAuditLogger, SerilogAuditLogger>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserInviteRepository, UserInviteRepository>();
+            services.AddScoped<IOtpRepository, OtpRepository>();
 
             return services;
         }
