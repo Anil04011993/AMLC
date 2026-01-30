@@ -64,8 +64,13 @@ namespace AMLRS.Application.Services
 
             await _email.SendAsync(
                 email,
-                "Verify your email",
-                $"Your OTP is <b>{otp}</b>");
+                "Register One Time Password",
+                $"""
+                Dear User,
+                Your OTP is <b>{otp}
+                This Otp expires in 5 mins.
+                The Otp is confidential, DO NOT share the Otp with anyone.
+                """);
         }
 
         public async Task VerifyOtpAsync(string email, string otp)

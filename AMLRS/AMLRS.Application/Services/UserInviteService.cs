@@ -39,7 +39,7 @@ namespace AMLRS.Application.Services
                 You have been invited to AMLRS.
                 Click the link below to activate your account:
                 {link}
-                This link expires in 48 hours.
+                This link expires in 24 hours.
                 If you did not expect this email, please ignore it.
                 """;
 

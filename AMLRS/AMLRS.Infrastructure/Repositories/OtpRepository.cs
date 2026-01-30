@@ -26,7 +26,7 @@ namespace AMLRS.Infrastructure.Repositories
                 .Where(x =>
                     x.UserId == userId &&
                     !x.IsUsed &&
-                    x.ExpiresAt > DateTime.UtcNow)
+                    x.ExpiresAt > DateTime.Now)
                 .OrderByDescending(x => x.CreatedAt)
                 .FirstOrDefaultAsync();
         }
