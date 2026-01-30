@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Abstraction\**" />
+    <EmbeddedResource Remove="Abstraction\**" />
+    <None Remove="Abstraction\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="4.0.3.21" />
     <PackageReference Include="AWSSDK.SimpleEmail" Version="4.0.2.12" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.9" />
@@ -17,10 +23,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AMLRS.Core\AMLRS.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Abstraction\" />
   </ItemGroup>
 
 </Project>

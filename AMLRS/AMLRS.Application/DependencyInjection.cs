@@ -15,6 +15,8 @@ namespace AMLRS.Application
             services.AddScoped<ICaseService, CaseService>();
             services.AddScoped<IDocumentService, DocumentService>();
             services.AddScoped<IFileStorage, LocalFileStorage>();
+
+            services.AddScoped<IAdminService, AdminService>();
           
             // Register SES client
             //services.AddAWSService<IAmazonSimpleEmailService>();

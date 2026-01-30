@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AMLRS.Core.Domains.Admin.Entites;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
-namespace AMLRS.Core.Domains.Admin.Entites
+namespace AMLRS.Core.Domains.Admin.Entities
 {
     public class OrgAdmin
     {
@@ -16,5 +14,4 @@ namespace AMLRS.Core.Domains.Admin.Entites
         // Navigation property
         public Organisation Org { get; set; }
     }
-
 }

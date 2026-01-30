@@ -1,4 +1,5 @@
 ﻿using AMLRS.Application.Interfaces.Log;
+using AMLRS.Core.Abstraction.Repository;
 using AMLRS.Core.Abstraction.Reposotory;
 using AMLRS.Core.Options;
 using AMLRS.Infrastructure.Data;
@@ -29,6 +30,7 @@ namespace AMLRS.Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserInviteRepository, UserInviteRepository>();
             services.AddScoped<IOtpRepository, OtpRepository>();
+            services.AddScoped<IAdminRepository, AdminRepository>();
 
             return services;
         }

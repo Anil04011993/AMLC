@@ -1,4 +1,5 @@
 ﻿using AMLRS.Core.Domains.Admin.Entites;
+using AMLRS.Core.Domains.Admin.Entities;
 using AMLRS.Core.Domains.Audit.Entities;
 using AMLRS.Core.Domains.Cases.Entities;
 using AMLRS.Core.Domains.ClientOutreachs.Entities;
