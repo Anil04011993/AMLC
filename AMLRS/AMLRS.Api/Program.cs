@@ -30,6 +30,20 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddOpenApi();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendOnly", policy =>
+    {
+        policy
+            .WithOrigins(
+                "https://app.yourdomain.com",
+                "http://localhost:5173"
+            )
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 //Correct order:
@@ -60,6 +74,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("FrontendOnly");
 
 app.UseHttpsRedirection();
 

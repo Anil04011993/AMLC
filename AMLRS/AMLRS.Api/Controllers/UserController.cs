@@ -1,6 +1,7 @@
 ﻿using AMLRS.Application.Common;
 using AMLRS.Application.DTOs;
 using AMLRS.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AMLRS.Api.Controllers
@@ -16,7 +17,9 @@ namespace AMLRS.Api.Controllers
             _userService = userService;
         }
 
+        [EnableCors("FrontendOnly")]
         [HttpPost(ApiRoutes.Login)]
+        [ProducesResponseType(typeof(LoggedInUserDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Login([FromBody] UserLoginRequestDto login)
         {
             var result = await _userService.LoginAsync(login);
