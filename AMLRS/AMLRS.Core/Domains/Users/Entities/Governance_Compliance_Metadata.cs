@@ -9,7 +9,7 @@ namespace AMLRS.Core.Domains.Users.Entities
     {
         [Key]
         public string UserId { get; set; }
-        public User User { get; set; }
+        public Usertbl User { get; set; }
         public DateTime? ComplianceRoleExpiry { get; set; }
         public string ComplianceFlags { get; set; }
         public DateTime? LastAccessReviewAt { get; set; }

@@ -8,7 +8,7 @@ namespace AMLRS.Core.Domains.Users.Entities
         public string UserRoleAssignmentId { get; set; }
 
         public string UserId { get; set; }
-        public User User { get; set; }
+        public Usertbl User { get; set; }
 
         public int RoleId { get; set; }
         public Role Role { get; set; }

@@ -12,7 +12,8 @@ namespace AMLRS.Core.Domains.Users.Enums
         STRSARFilingOfficer,
         TeamLead,
         Auditor,
-        SystemAdmin
+        SystemAdmin,
+        OrgAdmin
     }
 
 }

@@ -7,7 +7,7 @@ namespace AMLRS.Core.Domains.Users.Entities
     {
         [Key]
         public string UserId { get; set; }
-        public User User { get; set; }
+        public Usertbl User { get; set; }
         public bool EmailVerified { get; set; }
         public string PasswordHash { get; set; }
         public string PasswordSalt { get; set; }

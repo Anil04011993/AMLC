@@ -8,7 +8,7 @@ namespace AMLRS.Application.Interfaces.Services
 {
     public interface IUserService
     {
-        Task<User?> LoginAsync(UserLoginRequestDto login);
+        Task<LoggedInUserDto?> LoginAsync(UserLoginRequestDto login);
        
     }
 }

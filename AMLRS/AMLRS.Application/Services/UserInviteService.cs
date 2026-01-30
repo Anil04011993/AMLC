@@ -32,10 +32,21 @@ namespace AMLRS.Application.Services
 
             var link = $"https://localhost:7174/api/signup?token={token}";
 
+            var subject = "You're invited to AMLRS";
+            var body =
+                $"""
+                Hello,
+                You have been invited to AMLRS.
+                Click the link below to activate your account:
+                {link}
+                This link expires in 48 hours.
+                If you did not expect this email, please ignore it.
+                """;
+
             await _email.SendAsync(
                 email,
-                "You're Invited",
-                $"Click <a href='{link}'>here</a> to register.");
+                subject,
+                body);
         }
     }
 

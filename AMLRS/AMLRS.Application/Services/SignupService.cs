@@ -34,7 +34,7 @@ namespace AMLRS.Application.Services
             if (invite.ExpiresAt < DateTime.Now)
                 throw new Exception("Link expired");
 
-            var user = new User
+            var user = new Usertbl
             {
                 UserId = Guid.NewGuid().ToString(),
                 FirstName = "John",

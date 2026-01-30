@@ -15,43 +15,37 @@ namespace AMLRS.Infrastructure.Repositories
             _context = db;
         }
 
-        public async Task<User?> LoginAsync(string email, string password)
-        {        
+        public async Task<Usertbl?> LoginAsync(string email, string password)
+        {
 
-            var user = await _context.Users
-                .AsNoTracking()
-                .Where(u => u.Email == email && u.Password == password)
-               .FirstOrDefaultAsync();
+            var user = await GetByEmailAsync(email);
 
-            if (user == null || string.IsNullOrEmpty(user.Password))
+            if (user == null || !string.IsNullOrEmpty(user.Password) && user.Password != password)
                 return null;
 
-            var hasher = new PasswordHasher<object>();
-            var verify = hasher.VerifyHashedPassword(null, user.Password, password);
-            if (verify == PasswordVerificationResult.Failed)
-                return null;
+            //var hasher = new PasswordHasher<object>();
+            //var verify = hasher.VerifyHashedPassword(null, user.Password, password);
+            //if (verify == PasswordVerificationResult.Failed)
+            //    return null;
 
-            return new User
+            return new Usertbl
             {
                 UserId = user.UserId,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                PreferredName = user.PreferredName,
-                Password = user.Password,
                 Gender = Core.Domains.Users.Enums.Gender.Male
             };
         }
 
-        public async Task<User?> GetByEmailAsync(string email)
+        public async Task<Usertbl?> GetByEmailAsync(string email)
         {
             return await _context.Users
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Email == email);
         }
 
-        public async Task AddAsync(User user)
+        public async Task AddAsync(Usertbl user)
         {
             _context.Users.Add(user);
             await _context.SaveChangesAsync();

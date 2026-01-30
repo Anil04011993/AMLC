@@ -9,15 +9,13 @@ namespace AMLRS.Application.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IConfiguration _configuration;
 
-        public UserService(IUserRepository userRepository, IConfiguration configuration)
+        public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            _configuration = configuration;
         }
 
-        public async Task<User?> LoginAsync(UserLoginRequestDto login)
+        public async Task<LoggedInUserDto?> LoginAsync(UserLoginRequestDto login)
         {
             if (string.IsNullOrWhiteSpace(login.Email) || string.IsNullOrWhiteSpace(login.Password))
             {
@@ -28,7 +26,13 @@ namespace AMLRS.Application.Services
             if (user == null) return null;
 
             // No token generation — simple login returning user details
-            return user;
+            return new LoggedInUserDto
+            {
+                UserId = user.UserId,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            };
         }
     }
 }

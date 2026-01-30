@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace AMLRS.Core.Domains.Users.Entities
 {
@@ -9,7 +6,7 @@ namespace AMLRS.Core.Domains.Users.Entities
     {
         [Key]
         public string UserId { get; set; }
-        public User User { get; set; }
+        public Usertbl User { get; set; }
         public string UserAttributesMap { get; set; }
         public string AttributeSetVersion { get; set; }
         public string ContextRoles { get; set; }

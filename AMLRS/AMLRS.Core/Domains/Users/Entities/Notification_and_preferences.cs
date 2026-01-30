@@ -7,7 +7,7 @@ namespace AMLRS.Core.Domains.Users.Entities
     {
         [Key]
         public string UserId { get; set; }
-        public User User { get; set; }
+        public Usertbl User { get; set; }
         public NotificationChannels NotificationChannels { get; set; }
         public NotificationFrequency NotificationFrequency { get; set; }
         public LanguagePreference LanguagePreference { get; set; }

@@ -21,7 +21,7 @@ namespace AMLRS.Infrastructure.Data
         public DbSet<EntityProfile> EntityProfiles { get; set; }
 
         //Invite
-        public DbSet<User> Users => Set<User>();
+        public DbSet<Usertbl> Users => Set<Usertbl>();
         public DbSet<UserInvite> UserInvites => Set<UserInvite>();
         public DbSet<EmailOtp> EmailOtps => Set<EmailOtp>();
 
@@ -109,6 +109,7 @@ namespace AMLRS.Infrastructure.Data
             builder.ApplyConfiguration(new WorkstreamConfig());
             builder.ApplyConfiguration(new EntityProfileConfig());
             builder.ApplyConfiguration(new UserConfig());
+            builder.ApplyConfiguration(new RoleConfig());
             builder.Entity<AuditLog>().ToTable("AuditLogs");
 
             //builder.ApplyConfiguration(new CaseslaTrackerConfig());

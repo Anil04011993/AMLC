@@ -19,7 +19,7 @@ namespace AMLRS.Core.Domains.Users.Entities.Register
         public DateTime CreatedAt { get; set; }
 
         // Navigation
-        public User User { get; set; } = null!;
+        public Usertbl User { get; set; } = null!;
     }
 
 }

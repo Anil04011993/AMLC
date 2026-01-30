@@ -9,7 +9,7 @@ namespace AMLRS.Core.Domains.Users.Entities
     {
         [Key]
         public string UserId { get; set; }
-        public User User { get; set; }
+        public Usertbl User { get; set; }
         public DateTime? TerminationDate { get; set; }
         public string LinkedEntityId { get; set; }
     }

@@ -7,7 +7,7 @@ namespace AMLRS.Core.Domains.Users.Entities
     {
         [Key]
         public string UserId { get; set; }
-        public User User { get; set; }
+        public Usertbl User { get; set; }
         public bool AmlTrainingCompleted { get; set; }
         public DateTime AmlTrainingDate { get; set; }
         public RoleCertification RoleCertification { get; set; }

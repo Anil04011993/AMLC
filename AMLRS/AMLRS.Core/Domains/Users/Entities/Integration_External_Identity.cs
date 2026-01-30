@@ -6,7 +6,7 @@ namespace AMLRS.Core.Domains.Users.Entities
     {
         [Key]
         public string UserId { get; set; }
-        public User User { get; set; }
+        public Usertbl User { get; set; }
         public string ExternalIdentityProvider { get; set; }
         public List<string> ExternalGroups { get; set; }
         public string FederationId { get; set; }

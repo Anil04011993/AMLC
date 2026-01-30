@@ -1,8 +1,5 @@
 ﻿using AMLRS.Core.Domains.Users.Enums;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace AMLRS.Core.Domains.Users.Entities
 {
@@ -17,7 +14,7 @@ namespace AMLRS.Core.Domains.Users.Entities
         public bool IsComposable { get; set; }
 
         // Navigation
-        public ICollection<UserRoleAssignment> UserAssignments { get; set; }
+        public ICollection<UserRoleAssignment> UserAssignments { get; set; } = new List<UserRoleAssignment>();
     }
 
 }

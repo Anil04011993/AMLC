@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AMLRS.Api.Controllers
 {
-    [ApiController]
-    [Route("api/admin/invite")]
+    //[ApiController]
+    //[Route("api/admin/invite")]
     public class AdminInviteController : ControllerBase
     {
         private readonly IUserInviteService _service;
@@ -14,7 +14,7 @@ namespace AMLRS.Api.Controllers
             _service = service;
         }
 
-        [HttpPost()]
+        //[HttpPost()]
         public async Task<IActionResult> Invite([FromBody] string email)
         {
             await _service.InviteUserAsync(email);
