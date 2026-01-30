@@ -34,7 +34,7 @@ namespace AMLRS.Application.Services
             });
         }
 
-        public async Task<AdminDto?> GetAdminByIdAsync(Guid adminId)
+        public async Task<AdminDto?> GetAdminByIdAsync(int adminId)
         {
             var admin = await _adminRepository.GetAdminByIdAsync(adminId);
             if (admin == null) return null;
@@ -52,8 +52,7 @@ namespace AMLRS.Application.Services
         public async Task<AdminDto> AddAdminAsync(AdminDto adminDto)
         {
             var admin = new OrgAdmin
-            {
-                AdminId = Guid.NewGuid(),
+            {                
                 OrgId = adminDto.OrgId,
                 Name = adminDto.Name,
                 EmailId = adminDto.EmailId,
@@ -87,7 +86,7 @@ namespace AMLRS.Application.Services
             });
         }
 
-        public async Task<OrganisationDto?> GetOrganisationByIdAsync(Guid orgId)
+        public async Task<OrganisationDto?> GetOrganisationByIdAsync(int orgId)
         {
             var org = await _adminRepository.GetOrganisationByIdAsync(orgId);
             if (org == null) return null;
@@ -106,7 +105,6 @@ namespace AMLRS.Application.Services
         {
             var organisation = new Organisation
             {
-                OrgId = Guid.NewGuid(),
                 OrgLegalName = organisationDto.OrgLegalName,
                 DateOfCreation = organisationDto.DateOfCreation,
                 PrimaryContactName = organisationDto.PrimaryContactName,

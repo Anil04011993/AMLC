@@ -20,7 +20,7 @@ namespace AMLRS.Infrastructure.Repositories
             return await _context.Admins.Include(a => a.Org).ToListAsync();
         }
 
-        public async Task<OrgAdmin?> GetAdminByIdAsync(Guid adminId)
+        public async Task<OrgAdmin?> GetAdminByIdAsync(int adminId)
         {
             return await _context.Admins.Include(a => a.Org)
                                         .FirstOrDefaultAsync(a => a.AdminId == adminId);
@@ -39,7 +39,7 @@ namespace AMLRS.Infrastructure.Repositories
         }
 
 
-        public async Task<Organisation?> GetOrganisationByIdAsync(Guid orgId)
+        public async Task<Organisation?> GetOrganisationByIdAsync(int orgId)
         {
             return await _context.Organisations.FirstOrDefaultAsync(o => o.OrgId == orgId);
         }

@@ -10,13 +10,13 @@ namespace AMLRS.Application.Interfaces.Services
         // ------------------- Admin -------------------
 
         Task<IEnumerable<AdminDto>> GetAllAdminsAsync();
-        Task<AdminDto?> GetAdminByIdAsync(Guid adminId);
+        Task<AdminDto?> GetAdminByIdAsync(int adminId);
         Task<AdminDto> AddAdminAsync(AdminDto adminDto);
 
         // ------------------- Organisation -------------------
 
         Task<IEnumerable<OrganisationDto>> GetAllOrganisationsAsync();
-        Task<OrganisationDto?> GetOrganisationByIdAsync(Guid orgId);
+        Task<OrganisationDto?> GetOrganisationByIdAsync(int orgId);
         Task<OrganisationDto> AddOrganisationAsync(OrganisationDto organisationDto);
     }
 }

@@ -1,10 +1,11 @@
-﻿using AMLRS.Application.DTOs;
+﻿using AMLRS.Application.Common;
+using AMLRS.Application.DTOs;
 using AMLRS.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AMLRS.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -15,12 +16,12 @@ namespace AMLRS.Api.Controllers
             _userService = userService;
         }
 
-        [HttpPost("login")]
+        [HttpPost(ApiRoutes.Login)]
         public async Task<IActionResult> Login([FromBody] UserLoginRequestDto login)
         {
             var result = await _userService.LoginAsync(login);
             if (result == null)
-                return Unauthorized(new { Message = "Invalid credentials or user not registered" });
+                return Unauthorized(new { Message = "Login failed: Invalid email or password" });
 
             return Ok(result);
         }

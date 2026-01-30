@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace AMLRS.Core.Domains.Users.Entities.Register
 {
     public class EmailOtp
     {
-        public Guid Id { get; set; }
+        [Key]
+        public int OtpId { get; set; }
 
-        public string UserId { get; set; }
+        public int UserId { get; set; }
 
         public string OtpHash { get; set; } = null!;
 

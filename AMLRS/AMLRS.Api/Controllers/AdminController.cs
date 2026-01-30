@@ -1,13 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using AMLRS.Application.Interfaces.Services;
+﻿using AMLRS.Application.Common;
 using AMLRS.Application.DTOs;
+using AMLRS.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AMLRS.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api")]
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _adminServices;
@@ -20,7 +19,7 @@ namespace AMLRS.Api.Controllers
         // ------------------- Admin -------------------
 
         // GET: api/admin/admins
-        [HttpGet("admins")]
+        [HttpGet(ApiRoutes.GetAllOrgAdmins)]
         public async Task<IActionResult> GetAllAdmins()
         {
             var admins = await _adminServices.GetAllAdminsAsync();
@@ -28,8 +27,8 @@ namespace AMLRS.Api.Controllers
         }
 
         // GET: api/admin/admins/{id}
-        [HttpGet("admins/{id}")]
-        public async Task<IActionResult> GetAdminById(Guid id)
+        [HttpGet(ApiRoutes.GetOrgAdminById)]
+        public async Task<IActionResult> GetAdminById(int id)
         {
             var admin = await _adminServices.GetAdminByIdAsync(id);
             if (admin == null)
@@ -39,7 +38,7 @@ namespace AMLRS.Api.Controllers
         }
 
         // POST: api/admin/admins
-        [HttpPost("admins")]
+        [HttpPost(ApiRoutes.AddOrgadmin)]
         public async Task<IActionResult> AddAdmin([FromBody] AdminDto adminDto)
         {
             if (!ModelState.IsValid)
@@ -52,7 +51,7 @@ namespace AMLRS.Api.Controllers
         // ------------------- Organisation -------------------
 
         // GET: api/admin/organisations
-        [HttpGet("organisations")]
+        [HttpGet(ApiRoutes.GetAllOrg)]
         public async Task<IActionResult> GetAllOrganisations()
         {
             var organisations = await _adminServices.GetAllOrganisationsAsync();
@@ -60,8 +59,8 @@ namespace AMLRS.Api.Controllers
         }
 
         // GET: api/admin/organisations/{id}
-        [HttpGet("organisations/{id}")]
-        public async Task<IActionResult> GetOrganisationById(Guid id)
+        [HttpGet(ApiRoutes.GetOrgById)]
+        public async Task<IActionResult> GetOrganisationById(int id)
         {
             var organisation = await _adminServices.GetOrganisationByIdAsync(id);
             if (organisation == null)
@@ -71,7 +70,7 @@ namespace AMLRS.Api.Controllers
         }
 
         // POST: api/admin/organisations
-        [HttpPost("organisations")]
+        [HttpPost("organisation")]
         public async Task<IActionResult> AddOrganisation([FromBody] OrganisationDto organisationDto)
         {
             if (!ModelState.IsValid)

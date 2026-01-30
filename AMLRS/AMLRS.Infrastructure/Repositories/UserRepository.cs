@@ -17,16 +17,13 @@ namespace AMLRS.Infrastructure.Repositories
 
         public async Task<Usertbl?> LoginAsync(string email, string password)
         {
-
             var user = await GetByEmailAsync(email);
 
             if (user == null || !string.IsNullOrEmpty(user.Password) && user.Password != password)
                 return null;
 
-            //var hasher = new PasswordHasher<object>();
-            //var verify = hasher.VerifyHashedPassword(null, user.Password, password);
-            //if (verify == PasswordVerificationResult.Failed)
-            //    return null;
+            var role = await GetRolesByUserIdAsync(user.UserId);
+            if (role == null) return null;
 
             return new Usertbl
             {
@@ -34,7 +31,8 @@ namespace AMLRS.Infrastructure.Repositories
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                Gender = Core.Domains.Users.Enums.Gender.Male
+                Gender = Core.Domains.Users.Enums.Gender.Male,
+                Role = role.RoleName,
             };
         }
 
@@ -49,6 +47,15 @@ namespace AMLRS.Infrastructure.Repositories
         {
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<Role?> GetRolesByUserIdAsync(int userId)
+        {
+            return await _context.UserRoleAssignments
+                .Where(x => x.UserId == userId)
+                .Select(x => x.Role)
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
         }
     }
 }

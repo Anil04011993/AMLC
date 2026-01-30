@@ -9,10 +9,10 @@ namespace AMLRS.Core.Abstraction.Repository
     public interface IAdminRepository
     {        
         Task<IEnumerable<OrgAdmin>> GetAllAdminsAsync();        
-        Task<OrgAdmin?> GetAdminByIdAsync(Guid adminId);        
+        Task<OrgAdmin?> GetAdminByIdAsync(int adminId);        
         Task<OrgAdmin> AddAdminAsync(OrgAdmin admin);        
         Task<IEnumerable<Organisation>> GetAllOrganisationsAsync();        
-        Task<Organisation?> GetOrganisationByIdAsync(Guid orgId);        
+        Task<Organisation?> GetOrganisationByIdAsync(int orgId);        
         Task<Organisation> AddOrganisationAsync(Organisation organisation);
     }
 }

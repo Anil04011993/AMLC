@@ -20,7 +20,7 @@ namespace AMLRS.Infrastructure.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public async Task<EmailOtp?> GetValidOtpAsync(string userId)
+        public async Task<EmailOtp?> GetValidOtpAsync(int userId)
         {
             return await _db.EmailOtps
                 .Where(x =>

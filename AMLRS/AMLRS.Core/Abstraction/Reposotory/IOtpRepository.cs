@@ -8,7 +8,7 @@ namespace AMLRS.Core.Abstraction.Reposotory
     public interface IOtpRepository
     {
         Task AddAsync(EmailOtp otp);
-        Task<EmailOtp?> GetValidOtpAsync(string userId);
+        Task<EmailOtp?> GetValidOtpAsync(int userId);
         Task MarkUsedAsync(EmailOtp otp);
     }
 

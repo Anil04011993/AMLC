@@ -36,7 +36,6 @@ namespace AMLRS.Application.Services
 
             var user = new Usertbl
             {
-                UserId = Guid.NewGuid().ToString(),
                 FirstName = "John",
                 LastName = "Smith",
                 Gender = Core.Domains.Users.Enums.Gender.Male,
@@ -53,7 +52,7 @@ namespace AMLRS.Application.Services
 
             var otpEntity = new EmailOtp
             {
-                Id = Guid.NewGuid(),
+                //OtpId = Guid.NewGuid(),
                 //UserId = user.Id,
                 //OtpHash = BCrypt.Net.BCrypt.HashPassword(otp),
                 ExpiresAt = DateTime.UtcNow.AddMinutes(5),

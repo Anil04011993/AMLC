@@ -9,7 +9,7 @@ namespace AMLRS.Core.Domains.Users.Entities
     {
         // Core Identity
         [Key]
-        public required string UserId { get; set; }
+        public int UserId { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
@@ -22,6 +22,7 @@ namespace AMLRS.Core.Domains.Users.Entities
         public DateTime? DateOfBirth { get; set; }
         public Gender Gender { get; set; }
         public string Nationality { get; set; }
+        public RoleName Role { get; set; }
 
         //public Auth_and_Security Auth_and_Security { get; set; }
 

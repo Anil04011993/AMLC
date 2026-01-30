@@ -5,9 +5,9 @@ namespace AMLRS.Core.Domains.Users.Entities
     public class UserRoleAssignment
     {
         [Key]
-        public string UserRoleAssignmentId { get; set; }
+        public int UserRoleAssignmentId { get; set; }
 
-        public string UserId { get; set; }
+        public int UserId { get; set; }
         public Usertbl User { get; set; }
 
         public int RoleId { get; set; }
