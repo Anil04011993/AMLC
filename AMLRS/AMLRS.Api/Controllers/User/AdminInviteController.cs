@@ -1,4 +1,5 @@
-﻿using AMLRS.Application.DTOs;
+﻿using AMLRS.Application.Common;
+using AMLRS.Application.DTOs;
 using AMLRS.Application.Interfaces.Services.User;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +16,7 @@ namespace AMLRS.Api.Controllers.User
             _service = service;
         }
 
-        //[HttpPost()]
+        //[HttpPost(ApiRoutes.Invite)]
         public async Task<IActionResult> Invite([FromBody] string email, string role)
         {
             try

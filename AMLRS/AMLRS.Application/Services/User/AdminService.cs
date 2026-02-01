@@ -1,8 +1,8 @@
 ﻿using AMLRS.Application.DTOs;
 using AMLRS.Application.Interfaces.Services.User;
 using AMLRS.Core.Abstraction.Reposotory.User;
-using AMLRS.Core.Domains.Admin.Entites;
-using AMLRS.Core.Domains.Admin.Entities;
+using AMLRS.Core.Domains.OrganisationAdmins.Entites;
+using AMLRS.Core.Domains.OrganisationAdmins.Entities;
 
 namespace AMLRS.Application.Services.User
 {

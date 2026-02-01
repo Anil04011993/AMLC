@@ -1,11 +1,6 @@
-﻿using AMLRS.Core.Domains.Admin.Entites;
-using AMLRS.Core.Domains.Admin.Entities;
-using AMLRS.Core.Domains.Users.Entities;
+﻿using AMLRS.Core.Domains.OrganisationAdmins.Entites;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AMLRS.Infrastructure.Config
 {

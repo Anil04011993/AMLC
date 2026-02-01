@@ -1,18 +1,17 @@
-﻿using AMLRS.Core.Domains.Admin.Entites;
-using AMLRS.Core.Domains.Admin.Entities;
-using AMLRS.Core.Domains.Audit.Entities;
+﻿using AMLRS.Core.Domains.Audit.Entities;
 using AMLRS.Core.Domains.Cases.Entities;
 using AMLRS.Core.Domains.ClientOutreachs.Entities;
 using AMLRS.Core.Domains.Documents.Entities;
 using AMLRS.Core.Domains.EntityProfiles.Entities;
 using AMLRS.Core.Domains.KYCScreening.Entities;
+using AMLRS.Core.Domains.OrganisationAdmins.Entites;
+using AMLRS.Core.Domains.OrganisationAdmins.Entities;
 using AMLRS.Core.Domains.SARSTRReports.Entities;
 using AMLRS.Core.Domains.TransactionMonitoring.Entities;
 using AMLRS.Core.Domains.Users.Entities;
 using AMLRS.Core.Domains.Users.Entities.Register;
 using AMLRS.Infrastructure.Config;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
 namespace AMLRS.Infrastructure.Data
 {

@@ -1,6 +1,6 @@
 ﻿using AMLRS.Core.Abstraction.Reposotory;
 using AMLRS.Core.Abstraction.Reposotory.User;
-using AMLRS.Core.Domains.Admin.Entites;
+using AMLRS.Core.Domains.OrganisationAdmins.Entites;
 using AMLRS.Infrastructure.Data;
 
 namespace AMLRS.Infrastructure.Repositories.User

@@ -1,4 +1,4 @@
-﻿using AMLRS.Core.Domains.Admin.Entites;
+﻿using AMLRS.Core.Domains.OrganisationAdmins.Entites;
 
 namespace AMLRS.Core.Abstraction.Reposotory.User
 {

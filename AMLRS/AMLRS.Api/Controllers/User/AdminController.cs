@@ -16,8 +16,6 @@ namespace AMLRS.Api.Controllers.User
             _adminServices = adminServices;
         }
 
-        // ------------------- Admin -------------------
-
         [HttpGet(ApiRoutes.GetAllOrgAdmins)]
         public async Task<IActionResult> GetAllAdmins()
         {
@@ -45,7 +43,7 @@ namespace AMLRS.Api.Controllers.User
             return CreatedAtAction(nameof(GetAdminById), new { id = createdAdmin.AdminId }, createdAdmin);
         }
 
-        // ------------------- Organisation -------------------
+        // ----------------------------- Organisation ---------------------------------
 
         [HttpGet(ApiRoutes.GetAllOrg)]
         public async Task<IActionResult> GetAllOrganisations()

@@ -1,11 +1,12 @@
-﻿using AMLRS.Application.DTOs;
+﻿using AMLRS.Application.Common;
+using AMLRS.Application.DTOs;
 using AMLRS.Application.Interfaces.Services.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AMLRS.Api.Controllers.User
 {
     //[ApiController]
-    //[Route("api/auth")]
+    //[Route("api")]
     public class AuthController : ControllerBase
     {
         private readonly ISignupService _service;
@@ -15,7 +16,7 @@ namespace AMLRS.Api.Controllers.User
             _service = service;
         }
 
-        //[HttpPost("register")]
+        [HttpPost(ApiRoutes.SignUp)]
         public async Task<IActionResult> Register(RegisterRequestDto req)
         {
             await _service.RegisterAsync(req.Token, req.Email);
@@ -28,7 +29,7 @@ namespace AMLRS.Api.Controllers.User
             });
         }
 
-        //[HttpPost("verify-otp")]
+        [HttpPost(ApiRoutes.VerifyRegOtp)]
         public async Task<IActionResult> VerifyOtp(VerifyOtpRequestDto req)
         {
             var result = await _service.VerifyOtpAndCreateUserAsync(req.Email, req.Otp, req.Password);

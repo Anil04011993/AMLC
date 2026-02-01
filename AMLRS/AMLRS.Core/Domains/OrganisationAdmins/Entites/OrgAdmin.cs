@@ -1,8 +1,8 @@
-﻿using AMLRS.Core.Domains.Admin.Entites;
+﻿using AMLRS.Core.Domains.OrganisationAdmins.Entites;
 using AMLRS.Core.Domains.Users.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace AMLRS.Core.Domains.Admin.Entities
+namespace AMLRS.Core.Domains.OrganisationAdmins.Entities
 {
     public class OrgAdmin
     {

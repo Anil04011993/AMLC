@@ -1,4 +1,4 @@
-﻿using AMLRS.Core.Domains.Admin.Entities;
+﻿using AMLRS.Core.Domains.OrganisationAdmins.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

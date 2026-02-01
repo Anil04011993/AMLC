@@ -1,13 +1,8 @@
-﻿using AMLRS.Core.Domains.Admin.Entities;
-using AMLRS.Core.Domains.Cases.Entities;
+﻿using AMLRS.Core.Domains.OrganisationAdmins.Entities;
 using AMLRS.Core.Domains.Users.Entities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
-namespace AMLRS.Core.Domains.Admin.Entites
+namespace AMLRS.Core.Domains.OrganisationAdmins.Entites
 {
     public class Organisation
     {

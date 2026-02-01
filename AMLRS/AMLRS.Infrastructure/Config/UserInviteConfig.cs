@@ -1,10 +1,6 @@
-﻿using AMLRS.Core.Domains.Admin.Entities;
-using AMLRS.Core.Domains.Users.Entities.Register;
+﻿using AMLRS.Core.Domains.Users.Entities.Register;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AMLRS.Infrastructure.Config
 {

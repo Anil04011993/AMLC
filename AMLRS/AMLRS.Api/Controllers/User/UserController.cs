@@ -34,7 +34,7 @@ namespace AMLRS.Api.Controllers.User
             });
         }
 
-        [HttpPost("verify-otp")]
+        [HttpPost(ApiRoutes.VerifyLoginOtp)]
         public async Task<IActionResult> VerifyOtp(VerifyOtpRequestDto req)
         {
             var result = await _userService.VerifyOtpAndLoginAsync(req.Email, req.Otp);
