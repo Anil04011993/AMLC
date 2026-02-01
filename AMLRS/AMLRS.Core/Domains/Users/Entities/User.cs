@@ -1,7 +1,5 @@
-﻿using AMLRS.Core.Domains.Cases.Entities;
-using AMLRS.Core.Domains.Users.Enums;
+﻿using AMLRS.Core.Domains.Users.Enums;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AMLRS.Core.Domains.Users.Entities
 {    
@@ -10,6 +8,7 @@ namespace AMLRS.Core.Domains.Users.Entities
         // Core Identity
         [Key]
         public int UserId { get; set; }
+        public int OrgId { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
@@ -23,6 +22,9 @@ namespace AMLRS.Core.Domains.Users.Entities
         public Gender Gender { get; set; }
         public string Nationality { get; set; }
         public RoleName Role { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime CreatedAt { get; set; }
+        
 
         //public Auth_and_Security Auth_and_Security { get; set; }
 

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AMLRS.Application.Interfaces.Services
+namespace AMLRS.Application.Interfaces.Services.User
 {
     public interface IUserInviteService
     {
-        Task InviteUserAsync(string email);
+        Task InviteUserAsync(string email, string role);
     }
 
 }

@@ -18,12 +18,12 @@ namespace AMLRS.Api.Controllers
             _service = service;
         }
 
-        [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<EntityDataDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAllCases([FromQuery] CaseQueryParams query)
-        {
-            var result = await _service.GetAllCasesAsync(query);
-            return Ok(result);
-        }
+        //[HttpGet]
+        //[ProducesResponseType(typeof(IEnumerable<EntityDataDto>), StatusCodes.Status200OK)]
+        //public async Task<IActionResult> GetAllCases([FromQuery] CaseQueryParams query)
+        //{
+        //    var result = await _service.GetAllCasesAsync(query);
+        //    return Ok(result);
+        //}
     }
 }

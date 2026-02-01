@@ -4,12 +4,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AMLRS.Infrastructure.Config
 {
-    public class UserConfig : IEntityTypeConfiguration<User>
+    public class UserConfig : IEntityTypeConfiguration<Usertbl>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<Usertbl> builder)
         {
-            builder.ToTable(nameof(User));
+            builder.ToTable(nameof(Usertbl));
             builder.HasKey(x => x.UserId);
+           
+            builder.Property(x => x.UserId).UseIdentityColumn();
 
             //builder.HasOne(e => e.Auth_and_Security)
             //    .WithOne(i => i.User)

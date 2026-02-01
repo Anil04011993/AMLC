@@ -1,9 +1,9 @@
-﻿using AMLRS.Core.Abstraction.Reposotory;
+﻿using AMLRS.Core.Abstraction.Reposotory.User;
 using AMLRS.Core.Domains.Users.Entities.Register;
 using AMLRS.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace AMLRS.Infrastructure.Repositories
+namespace AMLRS.Infrastructure.Repositories.User
 {
     public class OtpRepository : IOtpRepository
     {
@@ -20,13 +20,12 @@ namespace AMLRS.Infrastructure.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public async Task<EmailOtp?> GetValidOtpAsync(int userId)
+        public async Task<EmailOtp?> GetActiveOtpAsync(string email)
         {
             return await _db.EmailOtps
                 .Where(x =>
-                    x.UserId == userId &&
-                    !x.IsUsed &&
-                    x.ExpiresAt > DateTime.Now)
+                    x.Email == email &&
+                    x.ExpiresAt > DateTime.UtcNow)
                 .OrderByDescending(x => x.CreatedAt)
                 .FirstOrDefaultAsync();
         }

@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AMLRS.Core.Abstraction.Reposotory
+namespace AMLRS.Core.Abstraction.Reposotory.User
 {
     public interface IOtpRepository
     {
         Task AddAsync(EmailOtp otp);
-        Task<EmailOtp?> GetValidOtpAsync(int userId);
+        Task<EmailOtp?> GetActiveOtpAsync(string email);
         Task MarkUsedAsync(EmailOtp otp);
     }
 

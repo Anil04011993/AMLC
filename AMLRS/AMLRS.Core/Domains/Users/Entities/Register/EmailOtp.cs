@@ -10,7 +10,8 @@ namespace AMLRS.Core.Domains.Users.Entities.Register
         [Key]
         public int OtpId { get; set; }
 
-        public int UserId { get; set; }
+        [Required]
+        public string Email { get; set; } = null!;
 
         public string OtpHash { get; set; } = null!;
 
@@ -19,9 +20,6 @@ namespace AMLRS.Core.Domains.Users.Entities.Register
         public bool IsUsed { get; set; }
 
         public DateTime CreatedAt { get; set; }
-
-        // Navigation
-        public Usertbl User { get; set; } = null!;
     }
 
 }

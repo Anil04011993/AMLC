@@ -1,5 +1,6 @@
 ﻿using AMLRS.Core.Domains.Admin.Entities;
 using AMLRS.Core.Domains.Cases.Entities;
+using AMLRS.Core.Domains.Users.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,7 +25,9 @@ namespace AMLRS.Core.Domains.Admin.Entites
         public string PrimaryContactName { get; set; }
         public string PrimaryContactEmail { get; set; }
         public string PrimaryContactPhone { get; set; }
-        public string SupportEmail { get; set; }
+        public string? SupportEmail { get; set; }
+
         public ICollection<OrgAdmin> OrgAdmins { get; set; } = new List<OrgAdmin>();
+        public ICollection<Usertbl> Users { get; set; } = new HashSet<Usertbl>();
     }
 }

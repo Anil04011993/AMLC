@@ -1,9 +1,9 @@
 ﻿using AMLRS.Application.Common;
 using AMLRS.Application.DTOs;
-using AMLRS.Application.Interfaces.Services;
+using AMLRS.Application.Interfaces.Services.User;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AMLRS.Api.Controllers
+namespace AMLRS.Api.Controllers.User
 {
     [ApiController]
     [Route("api")]
@@ -18,7 +18,6 @@ namespace AMLRS.Api.Controllers
 
         // ------------------- Admin -------------------
 
-        // GET: api/admin/admins
         [HttpGet(ApiRoutes.GetAllOrgAdmins)]
         public async Task<IActionResult> GetAllAdmins()
         {
@@ -26,7 +25,6 @@ namespace AMLRS.Api.Controllers
             return Ok(admins);
         }
 
-        // GET: api/admin/admins/{id}
         [HttpGet(ApiRoutes.GetOrgAdminById)]
         public async Task<IActionResult> GetAdminById(int id)
         {
@@ -37,7 +35,6 @@ namespace AMLRS.Api.Controllers
             return Ok(admin);
         }
 
-        // POST: api/admin/admins
         [HttpPost(ApiRoutes.AddOrgadmin)]
         public async Task<IActionResult> AddAdmin([FromBody] AdminDto adminDto)
         {
@@ -50,7 +47,6 @@ namespace AMLRS.Api.Controllers
 
         // ------------------- Organisation -------------------
 
-        // GET: api/admin/organisations
         [HttpGet(ApiRoutes.GetAllOrg)]
         public async Task<IActionResult> GetAllOrganisations()
         {
@@ -58,7 +54,6 @@ namespace AMLRS.Api.Controllers
             return Ok(organisations);
         }
 
-        // GET: api/admin/organisations/{id}
         [HttpGet(ApiRoutes.GetOrgById)]
         public async Task<IActionResult> GetOrganisationById(int id)
         {
@@ -69,8 +64,7 @@ namespace AMLRS.Api.Controllers
             return Ok(organisation);
         }
 
-        // POST: api/admin/organisations
-        [HttpPost("organisation")]
+        [HttpPost(ApiRoutes.AddOrganisation)]
         public async Task<IActionResult> AddOrganisation([FromBody] OrganisationDto organisationDto)
         {
             if (!ModelState.IsValid)

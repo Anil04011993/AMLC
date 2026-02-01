@@ -14,12 +14,14 @@ namespace AMLRS.Core.Abstraction.Reposotory
     IRepository<KycCheck>
     IRepository<SarStrReport>
     */
-    public interface IRepository<T, TKey> where T :  class//BaseEntity<TKey>
+    public interface IRepository<T, TKey> where T : class
     {
+        Task<List<T>> GetAllAsync();
         Task<T?> GetByIdAsync(TKey id);
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
     }
+
 
 }

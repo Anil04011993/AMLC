@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AMLRS.Application.Interfaces.Services
+namespace AMLRS.Application.Interfaces.Services.User
 {
     public interface IUserService
     {
         Task<LoggedInUserDto?> LoginAsync(UserLoginRequestDto login);
-       
+        Task<bool> VerifyOtpAndLoginAsync(string email, string otp);
     }
 }

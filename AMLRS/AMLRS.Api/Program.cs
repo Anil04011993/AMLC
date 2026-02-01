@@ -1,8 +1,9 @@
 using AMLRS.Api;
 using AMLRS.Api.Middleware;
 using AMLRS.Api.Middleware.AMLRS.Api.Middleware;
-using AMLRS.Application.Interfaces.Services;
-using AMLRS.Application.Services;
+using AMLRS.Application.DTOs;
+using AMLRS.Application.Interfaces.Services.User;
+using AMLRS.Application.Services.User;
 using AMLRS.Core.Abstraction.Reposotory;
 using AMLRS.Infrastructure.Logging;
 using AMLRS.Infrastructure.Repositories;
@@ -55,17 +56,33 @@ var app = builder.Build();
 //Endpoints
 // 1. Exception handling (FIRST)
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseStatusCodePages(async context =>
+{
+    var response = context.HttpContext.Response;
+
+    if (response.HasStarted)
+        return;
+
+    response.ContentType = "application/json";
+
+    var apiResponse = new ApiResponse<object>
+    {
+        StatusCode = response.StatusCode,
+        Message = response.StatusCode switch
+        {
+            StatusCodes.Status401Unauthorized => "Unauthorized",
+            StatusCodes.Status403Forbidden => "Forbidden",
+            StatusCodes.Status404NotFound => "Resource not found",
+            _ => "Request failed"
+        },
+        Data = null
+    };
+
+    await response.WriteAsJsonAsync(apiResponse);
+});
 
 // 2. CorrelationId enrichment middleware (HERE)
 app.UseMiddleware<CorrelationIdMiddleware>();
-
-// 3. Other middleware
-//app.UseHttpsRedirection();
-//app.UseAuthentication();
-//app.UseAuthorization();
-
-// 4. Request logging (after enrichment)
-//app.UseSerilogRequestLogging();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

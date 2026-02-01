@@ -1,12 +1,9 @@
-﻿using AMLRS.Core.Abstraction.Reposotory;
+﻿using AMLRS.Core.Abstraction.Reposotory.User;
 using AMLRS.Core.Domains.Users.Entities.Register;
 using AMLRS.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace AMLRS.Infrastructure.Repositories
+namespace AMLRS.Infrastructure.Repositories.User
 {
     public class UserInviteRepository : IUserInviteRepository
     {

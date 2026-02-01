@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AMLRS.Core.Abstraction.Reposotory
+namespace AMLRS.Core.Abstraction.Reposotory.User
 {
     public interface IUserRepository
     {
@@ -11,5 +11,4 @@ namespace AMLRS.Core.Abstraction.Reposotory
         Task<Usertbl?> GetByEmailAsync(string email);
         Task AddAsync(Usertbl user);
     }
-
 }

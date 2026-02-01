@@ -1,9 +1,11 @@
 ﻿namespace AMLRS.Api.Middleware
 {
-    using System.Net;
-    using System.Text.Json;
+    using global::AMLRS.Application.DTOs;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Logging;
+    using System.ComponentModel.DataAnnotations;
+    using System.Net;
+    using System.Text.Json;
 
     namespace AMLRS.Api.Middleware
     {
@@ -35,32 +37,36 @@
 
                     context.Response.StatusCode = StatusCodes.Status499ClientClosedRequest;
                 }
+                catch (UnauthorizedAccessException ex)
+                {
+                    await WriteErrorResponseAsync(context, StatusCodes.Status401Unauthorized, ex.Message);
+                }                
+                catch (ValidationException ex)
+                {
+                    await WriteErrorResponseAsync(context, StatusCodes.Status400BadRequest, ex.Message);
+                }
                 catch (Exception ex)
                 {
-                    _logger.LogError(
-                        ex,
-                        "Unhandled exception occurred. Path={Path}, Method={Method}",
-                        context.Request.Path,
-                        context.Request.Method);
-
-                    await WriteErrorResponseAsync(context);
-                }
+                    _logger.LogError(ex, "Unhandled exception");
+                    await WriteErrorResponseAsync(context, StatusCodes.Status500InternalServerError,
+                        "An unexpected error occurred");
+                }                
             }
 
-            private static async Task WriteErrorResponseAsync(HttpContext context)
+            private static async Task WriteErrorResponseAsync(HttpContext context, int statusCode,string message)
             {
+                context.Response.StatusCode = statusCode;
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-                var response = new
+                var response = new ApiResponse<object>
                 {
-                    title = "An unexpected error occurred.",
-                    status = context.Response.StatusCode,
-                    traceId = context.TraceIdentifier
+                    StatusCode = statusCode,
+                    Message = message,
+                    Data = null
                 };
 
-                await context.Response.WriteAsync(
-                    JsonSerializer.Serialize(response));
+                await context.Response.WriteAsJsonAsync(response);
             }
         }
     }

@@ -13,11 +13,13 @@ namespace AMLRS.Infrastructure.Repository
     {
         private readonly AmlDbContext _context;
         private readonly ILogger<CaseRepository> _logger;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CaseRepository(AmlDbContext context, ILogger<CaseRepository> logger) : base(context) 
+        public CaseRepository(AmlDbContext context, ILogger<CaseRepository> logger, IUnitOfWork unitOfWork) : base(context, unitOfWork) 
         {
             _context = context;
             _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<List<EntityProfile>> GetEntitiesWithCasesAsync(CaseQueryParams query)

@@ -1,7 +1,7 @@
-﻿using AMLRS.Application.Interfaces.Services;
-using System.Net;
+﻿using System.Net;
 using System.Net.Mail;
 using Microsoft.Extensions.Configuration;
+using AMLRS.Application.Interfaces.Services.User;
 
 namespace AMLRS.Application.Services
 {

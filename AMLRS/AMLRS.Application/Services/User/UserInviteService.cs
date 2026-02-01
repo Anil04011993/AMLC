@@ -1,8 +1,9 @@
-﻿using AMLRS.Application.Interfaces.Services;
-using AMLRS.Core.Abstraction.Reposotory;
+﻿using AMLRS.Application.Extentions;
+using AMLRS.Application.Interfaces.Services.User;
+using AMLRS.Core.Abstraction.Reposotory.User;
 using AMLRS.Core.Domains.Users.Entities.Register;
 
-namespace AMLRS.Application.Services
+namespace AMLRS.Application.Services.User
 {
     public class UserInviteService : IUserInviteService
     {
@@ -15,22 +16,23 @@ namespace AMLRS.Application.Services
             _email = email;
         }
 
-        public async Task InviteUserAsync(string email)
+        public async Task InviteUserAsync(string email, string role)
         {
             var token = Guid.NewGuid().ToString();
 
             var invite = new UserInvite
             {
-                Id = Guid.NewGuid(),
                 Email = email,
                 InviteToken = token,
-                ExpiresAt = DateTime.Now.AddDays(1),
+                ExpiresAt = DateTime.UtcNow.AddDays(1),
+                Role = ParseRole.TryParseRole(role),
                 IsUsed = false
             };
 
             await _repo.AddAsync(invite);
 
-            var link = $"https://localhost:7174/api/signup?token={token}";
+            var link = $"https://localhost:7174/api/signup?token={token}&role={role}";
+
 
             var subject = "You're invited to AMLRS";
             var body =

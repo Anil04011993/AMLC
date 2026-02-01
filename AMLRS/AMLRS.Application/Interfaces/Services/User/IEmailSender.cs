@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AMLRS.Application.Interfaces.Services
+namespace AMLRS.Application.Interfaces.Services.User
 {
     public interface IEmailSender
     {

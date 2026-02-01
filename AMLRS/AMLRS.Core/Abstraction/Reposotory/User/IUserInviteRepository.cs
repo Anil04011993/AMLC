@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AMLRS.Core.Abstraction.Reposotory
+namespace AMLRS.Core.Abstraction.Reposotory.User
 {
     public interface IUserInviteRepository
     {

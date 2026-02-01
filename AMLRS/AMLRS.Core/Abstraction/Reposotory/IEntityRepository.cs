@@ -7,5 +7,6 @@ namespace AMLRS.Core.Abstraction.Reposotory
 {
     public interface IEntityRepository : IRepository<EntityProfile, string>
     {
+
     }
 }

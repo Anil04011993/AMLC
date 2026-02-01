@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AMLRS.Application.DTOs;
+﻿using AMLRS.Application.DTOs;
 
-namespace AMLRS.Application.Interfaces.Services
+namespace AMLRS.Application.Interfaces.Services.User
 {
     public interface IAdminService
     {

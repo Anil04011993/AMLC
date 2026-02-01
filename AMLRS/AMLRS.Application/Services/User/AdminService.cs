@@ -1,29 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AMLRS.Core.Domains.Admin.Entities;
-using AMLRS.Core.Abstraction.Repository;
-using AMLRS.Application.Interfaces.Services;
-using AMLRS.Application.DTOs;
+﻿using AMLRS.Application.DTOs;
+using AMLRS.Application.Interfaces.Services.User;
+using AMLRS.Core.Abstraction.Reposotory.User;
 using AMLRS.Core.Domains.Admin.Entites;
+using AMLRS.Core.Domains.Admin.Entities;
 
-namespace AMLRS.Application.Services
+namespace AMLRS.Application.Services.User
 {
     public class AdminService : IAdminService
     {
         private readonly IAdminRepository _adminRepository;
+        private readonly IOrganisationRepository _orgRepository;
 
-        public AdminService(IAdminRepository adminRepository)
+        public AdminService(IAdminRepository adminRepository, IOrganisationRepository orgRepository)
         {
             _adminRepository = adminRepository;
+            _orgRepository = orgRepository;
         }
 
         // ------------------- Admin -------------------
 
         public async Task<IEnumerable<AdminDto>> GetAllAdminsAsync()
         {
-            var admins = await _adminRepository.GetAllAdminsAsync();
+            var admins = await _adminRepository.GetAllAsync();
             return admins.Select(a => new AdminDto
             {
                 AdminId = a.AdminId,
@@ -36,7 +34,7 @@ namespace AMLRS.Application.Services
 
         public async Task<AdminDto?> GetAdminByIdAsync(int adminId)
         {
-            var admin = await _adminRepository.GetAdminByIdAsync(adminId);
+            var admin = await _adminRepository.GetByIdAsync(adminId);
             if (admin == null) return null;
 
             return new AdminDto
@@ -59,15 +57,15 @@ namespace AMLRS.Application.Services
                 Role = adminDto.Role
             };
 
-            var created = await _adminRepository.AddAdminAsync(admin);
+            await _adminRepository.AddAsync(admin);
 
             return new AdminDto
             {
-                AdminId = created.AdminId,
-                OrgId = created.OrgId,
-                Name = created.Name,
-                EmailId = created.EmailId,
-                Role = created.Role
+                AdminId = admin.AdminId,
+                OrgId = admin.OrgId,
+                Name = admin.Name,
+                EmailId = admin.EmailId,
+                Role = admin.Role
             };
         }
 
@@ -75,7 +73,8 @@ namespace AMLRS.Application.Services
 
         public async Task<IEnumerable<OrganisationDto>> GetAllOrganisationsAsync()
         {
-            var organisations = await _adminRepository.GetAllOrganisationsAsync();
+            var organisations = await _orgRepository.GetAllAsync();
+
             return organisations.Select(o => new OrganisationDto
             {
                 OrgId = o.OrgId,
@@ -88,7 +87,7 @@ namespace AMLRS.Application.Services
 
         public async Task<OrganisationDto?> GetOrganisationByIdAsync(int orgId)
         {
-            var org = await _adminRepository.GetOrganisationByIdAsync(orgId);
+            var org = await _orgRepository.GetByIdAsync(orgId);
             if (org == null) return null;
 
             return new OrganisationDto
@@ -106,22 +105,29 @@ namespace AMLRS.Application.Services
             var organisation = new Organisation
             {
                 OrgLegalName = organisationDto.OrgLegalName,
-                DateOfCreation = organisationDto.DateOfCreation,
+                DateOfCreation = DateTime.UtcNow,
                 PrimaryContactName = organisationDto.PrimaryContactName,
                 PrimaryContactEmail = organisationDto.PrimaryContactEmail,
-                //CreatedAt = DateTime.UtcNow,
-                //UpdatedAt = DateTime.UtcNow
+                BrandName = organisationDto.BrandName,
+                CountryOfCorp = organisationDto.CountryOfCorp,
+                EntityType = organisationDto.EntityType,
+                PrimaryContactPhone = organisationDto.PrimaryContactPhone,
+                PrimaryOperatingCountries = organisationDto.PrimaryOperatingCountries,
+                RegistrationNumber = organisationDto.RegistrationNumber,
+                Regulator_LicenseNumber = organisationDto.RegistrationNumber,
+                TaxIdentificatioNumber = organisationDto.TaxIdentificatioNumber,
+                SupportEmail = organisationDto.SupportEmail,
             };
 
-            var created = await _adminRepository.AddOrganisationAsync(organisation);
+            await _orgRepository.AddAsync(organisation);
 
             return new OrganisationDto
             {
-                OrgId = created.OrgId,
-                OrgLegalName = created.OrgLegalName,
-                DateOfCreation = created.DateOfCreation,
-                PrimaryContactName = created.PrimaryContactName,
-                PrimaryContactEmail = created.PrimaryContactEmail
+                OrgId = organisation.OrgId,
+                OrgLegalName = organisation.OrgLegalName,
+                DateOfCreation = organisation.DateOfCreation,
+                PrimaryContactName = organisation.PrimaryContactName,
+                PrimaryContactEmail = organisation.PrimaryContactEmail
             };
         }
     }

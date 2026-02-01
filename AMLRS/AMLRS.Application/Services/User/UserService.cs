@@ -1,11 +1,11 @@
 ﻿using AMLRS.Application.DTOs;
-using AMLRS.Application.Interfaces.Services;
-using AMLRS.Core.Abstraction.Reposotory;
+using AMLRS.Application.Interfaces.Services.User;
+using AMLRS.Core.Abstraction.Reposotory.User;
 using AMLRS.Core.Domains.Users.Entities;
 using AMLRS.Core.Domains.Users.Entities.Register;
 using Microsoft.Extensions.Configuration;
 
-namespace AMLRS.Application.Services
+namespace AMLRS.Application.Services.User
 {
     public class UserService : IUserService
     {
@@ -62,6 +62,22 @@ namespace AMLRS.Application.Services
                 LastName = user.LastName,
                 Role = user.Role.ToString(),
             };
+        }
+
+        public async Task<bool> VerifyOtpAndLoginAsync(string email, string otp)
+        {
+            var otpEntity = await _otpRepo.GetActiveOtpAsync(email);
+
+            //if (otpEntity == null ||
+            //    otpEntity.ExpiresAt < DateTime.UtcNow ||
+            //    !BCrypt.Net.BCrypt.Verify(otp, otpEntity.OtpHash))
+            if (otpEntity == null || string.IsNullOrEmpty(otp))
+                throw new Exception("Invalid or expired OTP");
+
+            otpEntity.IsUsed = true;
+            await _otpRepo.MarkUsedAsync(otpEntity);
+
+            return true;
         }
     }
 }

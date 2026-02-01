@@ -1,7 +1,9 @@
 ﻿using Amazon.SimpleEmail;
 using AMLRS.Application.Interfaces.Services;
+using AMLRS.Application.Interfaces.Services.User;
 using AMLRS.Application.Interfaces.Storage;
 using AMLRS.Application.Services;
+using AMLRS.Application.Services.User;
 using AMLRS.Application.Storage;
 using Microsoft.Extensions.DependencyInjection;
 
