@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AMLRS.Api.Controllers.User
 {
-    //[ApiController]
-    //[Route("api/admin/invite")]
+    [ApiController]
+    [Route("api/admin/invite")]
     public class AdminInviteController : ControllerBase
     {
         private readonly IUserInviteService _service;
@@ -16,7 +16,7 @@ namespace AMLRS.Api.Controllers.User
             _service = service;
         }
 
-        //[HttpPost(ApiRoutes.Invite)]
+        [HttpPost(ApiRoutes.Invite)]
         public async Task<IActionResult> Invite([FromBody] string email, string role)
         {
             try

@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AMLRS.Api.Controllers.User
 {
-    //[ApiController]
-    //[Route("api")]
+    [ApiController]
+    [Route("api")]
     public class AuthController : ControllerBase
     {
         private readonly ISignupService _service;
