@@ -8,7 +8,7 @@ namespace AMLRS.Application.DTOs
     public class AdminDto
     {
         public int AdminId { get; set; }
-        public int OrgId { get; set; } 
+        public string OrgName { get; set; } 
         public string Name { get; set; } 
         public string EmailId { get; set; } 
         public RoleName Role { get; set; } 

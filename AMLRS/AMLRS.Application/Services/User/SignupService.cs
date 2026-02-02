@@ -1,4 +1,5 @@
-﻿using AMLRS.Application.Interfaces.Services.User;
+﻿using AMLRS.Application.Extentions;
+using AMLRS.Application.Interfaces.Services.User;
 using AMLRS.Core.Abstraction.Reposotory.User;
 using AMLRS.Core.Domains.Users.Entities;
 using AMLRS.Core.Domains.Users.Entities.Register;
@@ -10,17 +11,20 @@ namespace AMLRS.Application.Services.User
     {
         private readonly IUserInviteRepository _inviteRepo;
         private readonly IUserRepository _userRepo;
+        private readonly IOrganisationRepository _orgRepo;
         private readonly IOtpRepository _otpRepo;
         private readonly IEmailSender _email;
 
         public SignupService(
             IUserInviteRepository inviteRepo,
             IUserRepository userRepo,
+            IOrganisationRepository orgRepo,
             IOtpRepository otpRepo,
             IEmailSender email)
         {
             _inviteRepo = inviteRepo;
             _userRepo = userRepo;
+            _orgRepo = orgRepo;
             _otpRepo = otpRepo;
             _email = email;
         }
@@ -63,9 +67,12 @@ namespace AMLRS.Application.Services.User
         }
 
         public async Task<bool> VerifyOtpAndCreateUserAsync(
+            string name,
             string email,
             string otp,
-            string password)
+            string password,
+            string role,
+            string organisation)
         {
             var otpEntity = await _otpRepo.GetActiveOtpAsync(email);
 
@@ -78,18 +85,26 @@ namespace AMLRS.Application.Services.User
             otpEntity.IsUsed = true;
             await _otpRepo.MarkUsedAsync(otpEntity);
 
+            //get org details
+            var org = await _orgRepo.GetOrganisationByOrgNameAsync(organisation);
+            if (org == null)
+                throw new Exception($"{organisation} does not exist.");
+            //role from payload?
+
             var user = new Usertbl
             {
+                PreferredName = name,
+                OrgId = org.OrgId,
                 Email = email,
                 Password = password,
                 IsActive = true,
+                Role = ParseRole.TryParseRole(role),
                 CreatedAt = DateTime.UtcNow
             };
 
             await _userRepo.AddAsync(user);
             return true;
         }
-
     }
 
 }

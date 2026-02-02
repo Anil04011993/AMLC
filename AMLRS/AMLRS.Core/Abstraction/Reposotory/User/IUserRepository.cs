@@ -1,14 +1,14 @@
-﻿using AMLRS.Core.Domains.Users.Entities;
+﻿using AMLRS.Core.Domains.OrganisationAdmins.Entites;
+using AMLRS.Core.Domains.Users.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace AMLRS.Core.Abstraction.Reposotory.User
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository<Usertbl, int>
     {
         Task<Usertbl?> LoginAsync(string Email, string Password);
-        Task<Usertbl?> GetByEmailAsync(string email);
-        Task AddAsync(Usertbl user);
+        Task<Usertbl?> GetByEmailAsync(string email);        
     }
 }
