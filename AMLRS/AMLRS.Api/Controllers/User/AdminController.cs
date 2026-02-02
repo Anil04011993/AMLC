@@ -1,6 +1,7 @@
 ﻿using AMLRS.Application.Common;
 using AMLRS.Application.DTOs;
 using AMLRS.Application.Interfaces.Services.User;
+using AMLRS.Core.Domains.OrganisationAdmins.Entites;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AMLRS.Api.Controllers.User
@@ -20,7 +21,13 @@ namespace AMLRS.Api.Controllers.User
         public async Task<IActionResult> GetAllAdmins()
         {
             var admins = await _adminServices.GetAllAdminsAsync();
-            return Ok(admins);
+           
+            return Ok(new ApiResponse<object>
+            {
+                StatusCode = StatusCodes.Status200OK,
+                Message = "All admins",
+                Data = admins
+            });
         }
 
         [HttpGet(ApiRoutes.GetOrgAdminById)]
@@ -30,7 +37,12 @@ namespace AMLRS.Api.Controllers.User
             if (admin == null)
                 return NotFound();
 
-            return Ok(admin);
+            return Ok(new ApiResponse<object>
+            {
+                StatusCode = StatusCodes.Status200OK,
+                Message = "Get Admin",
+                Data = admin
+            });
         }
 
         [HttpPost(ApiRoutes.AddOrgadmin)]
@@ -49,7 +61,13 @@ namespace AMLRS.Api.Controllers.User
         public async Task<IActionResult> GetAllOrganisations()
         {
             var organisations = await _adminServices.GetAllOrganisationsAsync();
-            return Ok(organisations);
+
+            return Ok(new ApiResponse<object>
+            {
+                StatusCode = StatusCodes.Status200OK,
+                Message = "All Organisations",
+                Data = organisations
+            });
         }
 
         [HttpGet(ApiRoutes.GetOrgById)]
@@ -59,7 +77,12 @@ namespace AMLRS.Api.Controllers.User
             if (organisation == null)
                 return NotFound();
 
-            return Ok(organisation);
+            return Ok(new ApiResponse<object>
+            {
+                StatusCode = StatusCodes.Status200OK,
+                Message = "Get Organisation",
+                Data = organisation
+            });
         }
 
         [HttpPost(ApiRoutes.AddOrganisation)]

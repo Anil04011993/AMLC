@@ -4,6 +4,7 @@ using AMLRS.Core.Abstraction.Reposotory.User;
 using AMLRS.Core.Domains.Users.Entities;
 using AMLRS.Core.Domains.Users.Entities.Register;
 using Microsoft.Extensions.Configuration;
+using System.Security.Cryptography;
 
 namespace AMLRS.Application.Services.User
 {
@@ -29,16 +30,18 @@ namespace AMLRS.Application.Services.User
 
             var user = await _userRepository.LoginAsync(login.Email, login.Password);
             if (user == null) return null;
-            /*
-            var otp = new Random().Next(100000, 999999).ToString();
+
+            // Generate OTP
+            var otp = RandomNumberGenerator.GetInt32(100000, 999999).ToString();
 
             var otpEntity = new EmailOtp
             {
-                Id = Guid.NewGuid(),
-                //UserId = user.Id,
+                Email = login.Email,
+                OtpHash = otp,
                 //OtpHash = BCrypt.Net.BCrypt.HashPassword(otp),
                 ExpiresAt = DateTime.UtcNow.AddMinutes(5),
-                IsUsed = false
+                IsUsed = false,
+                CreatedAt = DateTime.UtcNow
             };
 
             await _otpRepo.AddAsync(otpEntity);
@@ -52,7 +55,7 @@ namespace AMLRS.Application.Services.User
                 This Otp expires in 5 mins.
                 The Otp is confidential, DO NOT share the Otp with anyone.
                 """);
-            */
+            
             // No token generation — simple login returning user details
             return new LoggedInUserDto
             {

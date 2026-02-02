@@ -1,4 +1,6 @@
-﻿using AMLRS.Core.Abstraction.Reposotory.User;
+﻿using AMLRS.Core.Abstraction.Reposotory;
+using AMLRS.Core.Abstraction.Reposotory.User;
+using AMLRS.Core.Domains.OrganisationAdmins.Entites;
 using AMLRS.Core.Domains.Users.Entities;
 using AMLRS.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
@@ -6,13 +8,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AMLRS.Infrastructure.Repositories.User
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : Repository<Usertbl, int>, IUserRepository
     {
         private readonly AmlDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UserRepository(AmlDbContext db)
+        public UserRepository(AmlDbContext context, IUnitOfWork unitOfWork) : base(context, unitOfWork)
         {
-            _context = db;
+            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Usertbl?> LoginAsync(string email, string password)
@@ -41,12 +45,6 @@ namespace AMLRS.Infrastructure.Repositories.User
             return await _context.Users
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Email == email);
-        }
-
-        public async Task AddAsync(Usertbl user)
-        {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<Role?> GetRolesByUserIdAsync(int userId)

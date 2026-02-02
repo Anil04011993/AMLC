@@ -8,7 +8,7 @@ using System.Text;
 
 namespace AMLRS.Core.Domains.EntityProfiles.Entities
 {
-    public class EntityProfile// : BaseEntity<string>
+    public class EntityProfile
     {
         [Key]
         [Required]

@@ -22,14 +22,25 @@ namespace AMLRS.Application.Services.User
         public async Task<IEnumerable<AdminDto>> GetAllAdminsAsync()
         {
             var admins = await _adminRepository.GetAllAsync();
-            return admins.Select(a => new AdminDto
+            var adminDtos = new List<AdminDto>();
+            foreach (var a in admins)
             {
-                AdminId = a.AdminId,
-                OrgId = a.OrgId,
-                Name = a.Name,
-                EmailId = a.EmailId,
-                Role = a.Role
-            });
+                var org = await _orgRepository.GetOrganisationByOrgidAsync(a.OrgId);
+
+                if (org == null)
+                    throw new Exception($"organisation does not exist.");
+
+                adminDtos.Add(new AdminDto
+                {
+                    AdminId = a.AdminId,
+                    OrgName = org.OrgLegalName,
+                    Name = a.Name,
+                    EmailId = a.EmailId,
+                    Role = a.Role
+                });
+            }
+
+            return adminDtos;
         }
 
         public async Task<AdminDto?> GetAdminByIdAsync(int adminId)
@@ -37,10 +48,14 @@ namespace AMLRS.Application.Services.User
             var admin = await _adminRepository.GetByIdAsync(adminId);
             if (admin == null) return null;
 
+            var org = await _orgRepository.GetOrganisationByOrgidAsync(admin.OrgId);
+            if (org == null)
+                throw new Exception($"organisation does not exist.");
+
             return new AdminDto
             {
                 AdminId = admin.AdminId,
-                OrgId = admin.OrgId,
+                OrgName = org.OrgLegalName,
                 Name = admin.Name,
                 EmailId = admin.EmailId,
                 Role = admin.Role
@@ -49,9 +64,14 @@ namespace AMLRS.Application.Services.User
 
         public async Task<AdminDto> AddAdminAsync(AdminDto adminDto)
         {
+            var org = await _orgRepository.GetOrganisationByOrgNameAsync(adminDto.OrgName);
+
+            if (org == null)
+                throw new Exception($"{adminDto.OrgName} does not exist.");
+
             var admin = new OrgAdmin
             {                
-                OrgId = adminDto.OrgId,
+                OrgId = org.OrgId,
                 Name = adminDto.Name,
                 EmailId = adminDto.EmailId,
                 Role = adminDto.Role
@@ -62,7 +82,7 @@ namespace AMLRS.Application.Services.User
             return new AdminDto
             {
                 AdminId = admin.AdminId,
-                OrgId = admin.OrgId,
+                OrgName = org.OrgLegalName,
                 Name = admin.Name,
                 EmailId = admin.EmailId,
                 Role = admin.Role

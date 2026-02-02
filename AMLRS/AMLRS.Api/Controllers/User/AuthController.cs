@@ -32,7 +32,7 @@ namespace AMLRS.Api.Controllers.User
         [HttpPost(ApiRoutes.VerifyRegOtp)]
         public async Task<IActionResult> VerifyOtp(VerifyOtpRequestDto req)
         {
-            var result = await _service.VerifyOtpAndCreateUserAsync(req.Email, req.Otp, req.Password);
+            var result = await _service.VerifyOtpAndCreateUserAsync(req.Name, req.Email, req.Otp, req.Password, req.Role, req.Org);
             if (!result)
                 throw new UnauthorizedAccessException("Invalid or expired OTP");
             return Ok(new ApiResponse<object>

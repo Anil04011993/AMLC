@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AMLRS.Api.Controllers.User
 {
     [ApiController]
-    [Route("api/admin/invite")]
+    [Route("api")]
     public class AdminInviteController : ControllerBase
     {
         private readonly IUserInviteService _service;
