@@ -30,7 +30,6 @@ namespace AMLRS.Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserInviteRepository, UserInviteRepository>();
             services.AddScoped<IOtpRepository, OtpRepository>();
-            services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<IOrganisationRepository, OrganisationRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

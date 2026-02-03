@@ -2,91 +2,16 @@
 using AMLRS.Application.Interfaces.Services.User;
 using AMLRS.Core.Abstraction.Reposotory.User;
 using AMLRS.Core.Domains.OrganisationAdmins.Entites;
-using AMLRS.Core.Domains.OrganisationAdmins.Entities;
 
 namespace AMLRS.Application.Services.User
 {
-    public class AdminService : IAdminService
+    public class OrganisationService : IOrganisationService
     {
-        private readonly IAdminRepository _adminRepository;
         private readonly IOrganisationRepository _orgRepository;
 
-        public AdminService(IAdminRepository adminRepository, IOrganisationRepository orgRepository)
+        public OrganisationService(IOrganisationRepository orgRepository)
         {
-            _adminRepository = adminRepository;
             _orgRepository = orgRepository;
-        }
-
-        // ------------------- Admin -------------------
-
-        public async Task<IEnumerable<AdminDto>> GetAllAdminsAsync()
-        {
-            var admins = await _adminRepository.GetAllAsync();
-            var adminDtos = new List<AdminDto>();
-            foreach (var a in admins)
-            {
-                var org = await _orgRepository.GetOrganisationByOrgidAsync(a.OrgId);
-
-                if (org == null)
-                    throw new Exception($"organisation does not exist.");
-
-                adminDtos.Add(new AdminDto
-                {
-                    AdminId = a.AdminId,
-                    OrgName = org.OrgLegalName,
-                    Name = a.Name,
-                    EmailId = a.EmailId,
-                    Role = a.Role
-                });
-            }
-
-            return adminDtos;
-        }
-
-        public async Task<AdminDto?> GetAdminByIdAsync(int adminId)
-        {
-            var admin = await _adminRepository.GetByIdAsync(adminId);
-            if (admin == null) return null;
-
-            var org = await _orgRepository.GetOrganisationByOrgidAsync(admin.OrgId);
-            if (org == null)
-                throw new Exception($"organisation does not exist.");
-
-            return new AdminDto
-            {
-                AdminId = admin.AdminId,
-                OrgName = org.OrgLegalName,
-                Name = admin.Name,
-                EmailId = admin.EmailId,
-                Role = admin.Role
-            };
-        }
-
-        public async Task<AdminDto> AddAdminAsync(AdminDto adminDto)
-        {
-            var org = await _orgRepository.GetOrganisationByOrgNameAsync(adminDto.OrgName);
-
-            if (org == null)
-                throw new Exception($"{adminDto.OrgName} does not exist.");
-
-            var admin = new OrgAdmin
-            {                
-                OrgId = org.OrgId,
-                Name = adminDto.Name,
-                EmailId = adminDto.EmailId,
-                Role = adminDto.Role
-            };
-
-            await _adminRepository.AddAsync(admin);
-
-            return new AdminDto
-            {
-                AdminId = admin.AdminId,
-                OrgName = org.OrgLegalName,
-                Name = admin.Name,
-                EmailId = admin.EmailId,
-                Role = admin.Role
-            };
         }
 
         // ------------------- Organisation -------------------
@@ -149,6 +74,35 @@ namespace AMLRS.Application.Services.User
                 PrimaryContactName = organisation.PrimaryContactName,
                 PrimaryContactEmail = organisation.PrimaryContactEmail
             };
+        }
+
+        public async Task<OrganisationDto?> UpdateOrgAsync(int id, OrganisationDto orgDto)
+        {
+            var org = await _orgRepository.GetOrganisationByOrgNameAsync(orgDto.OrgLegalName);
+            if (org == null)
+                throw new Exception($"{orgDto.OrgLegalName} does not exist.");
+
+            var OrgEntity = new Organisation
+            {
+                OrgLegalName = orgDto.OrgLegalName,
+                PrimaryContactEmail = orgDto.PrimaryContactEmail,
+
+                OrgId = orgDto.OrgId
+            };
+
+            await _orgRepository.UpdateAsync(OrgEntity);
+            return orgDto;
+        }
+
+        public async Task<bool> DeleteOrgAsync(int id)
+        {
+            var org = await _orgRepository.GetByIdAsync(id);
+
+            if (org == null)
+                throw new Exception($"admin does not exist.");
+
+            await _orgRepository.DeleteAsync(org);
+            return true;
         }
     }
 }

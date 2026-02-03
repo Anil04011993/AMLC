@@ -9,15 +9,15 @@ namespace AMLRS.Core.Domains.Users.Entities
         [Key]
         public int UserId { get; set; }
         public int OrgId { get; set; }
-        public string FirstName { get; set; }
-        public string MiddleName { get; set; }
-        public string LastName { get; set; }
-        public string PreferredName { get; set; }
+        public string? FirstName { get; set; }
+        public string? MiddleName { get; set; }
+        public string? LastName { get; set; }
+        public string? PreferredName { get; set; }
         public required string Email { get; set; }
-        public string Password { get; set; }
-        public string SecondaryEmail { get; set; }
-        public string PhoneNumber { get; set; }
-        public string SecondaryPhone { get; set; }
+        public string? Password { get; set; }
+        public string? SecondaryEmail { get; set; }
+        public string? PhoneNumber { get; set; }
+        public string? SecondaryPhone { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public Gender Gender { get; set; }
         public string Nationality { get; set; }
@@ -25,7 +25,6 @@ namespace AMLRS.Core.Domains.Users.Entities
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
         
-
         //public Auth_and_Security Auth_and_Security { get; set; }
 
         //public Role_and_permission Role_and_permission { get; set; }

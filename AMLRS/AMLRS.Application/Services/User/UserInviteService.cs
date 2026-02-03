@@ -1,6 +1,7 @@
-﻿using AMLRS.Application.Extentions;
+﻿using AMLRS.Application.DTOs;
 using AMLRS.Application.Interfaces.Services.User;
 using AMLRS.Core.Abstraction.Reposotory.User;
+using AMLRS.Core.Domains.Users.Entities;
 using AMLRS.Core.Domains.Users.Entities.Register;
 
 namespace AMLRS.Application.Services.User
@@ -9,31 +10,43 @@ namespace AMLRS.Application.Services.User
     {
         private readonly IUserInviteRepository _repo;
         private readonly IEmailSender _email;
+        private readonly IOrganisationRepository _orgRepo;
+        private readonly IUserRepository _userRepo;
 
-        public UserInviteService(IUserInviteRepository repo, IEmailSender email)
+        public UserInviteService(IUserInviteRepository repo, IEmailSender email, IOrganisationRepository orgRepo, IUserRepository userRepo)
         {
             _repo = repo;
             _email = email;
+            _orgRepo = orgRepo;
+            _userRepo = userRepo;
         }
 
-        public async Task InviteUserAsync(string email, string role)
+        public async Task InviteUserAsync(UsertblDto userDto)
         {
             try
-            {
+            {                
+                await AddUser(userDto);
+
+                var org = await _orgRepo.GetOrganisationByOrgNameAsync(userDto.OrgName);
+
+                if (org == null)
+                    throw new Exception($"{userDto.OrgName} does not exist.");
+
                 var token = Guid.NewGuid().ToString();
 
                 var invite = new UserInvite
                 {
-                    Email = email,
+                    Email = userDto.EmailId,
                     InviteToken = token,
                     ExpiresAt = DateTime.UtcNow.AddDays(1),
-                    Role = ParseRole.TryParseRole(role),
-                    IsUsed = false
+                    Role = userDto.Role,
+                    IsUsed = false,
+                    OrgId = org.OrgId,
                 };
 
                 await _repo.AddAsync(invite);
-
-                var link = $"https://localhost:7174/api/signup?token={token}&role={role}";
+                // https://localhost:5173/auth/signup/:
+                var link = $"http://localhost:5173/auth/signup/{token}";
 
                 var subject = "You're invited to AMLRS";
 
@@ -69,15 +82,33 @@ namespace AMLRS.Application.Services.User
 
 
                 await _email.SendAsync(
-                    email,
+                    userDto.EmailId,
                     subject,
                     body);
             }
             catch (Exception)
             {
                 throw;
-            }
-            
+            }            
+        }
+
+        public async Task<UsertblDto> AddUser(UsertblDto userDto)
+        {
+
+            var org = await _orgRepo.GetOrganisationByOrgNameAsync(userDto.OrgName);
+
+            var admin = new Usertbl
+            {
+                UserId = userDto.UserdtoId,
+                Email = userDto.EmailId,
+                PreferredName = userDto.Name,
+                OrgId = org.OrgId,
+                Role = userDto.Role,
+            };
+
+            await _userRepo.AddAsync(admin);
+
+            return userDto;
         }
     }
 

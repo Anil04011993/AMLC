@@ -3,7 +3,6 @@ using AMLRS.Application.Interfaces.Services.User;
 using AMLRS.Core.Abstraction.Reposotory.User;
 using AMLRS.Core.Domains.Users.Entities;
 using AMLRS.Core.Domains.Users.Entities.Register;
-using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography;
 
 namespace AMLRS.Application.Services.User
@@ -14,12 +13,18 @@ namespace AMLRS.Application.Services.User
         private readonly IOtpRepository _otpRepo;
         private readonly IEmailSender _email;
 
-        public UserService(IUserRepository userRepository, IOtpRepository otpRepo, IEmailSender email)
+        private readonly IOrganisationRepository _orgRepository;
+
+
+        public UserService(IUserRepository userRepository, IOtpRepository otpRepo, IEmailSender email, IOrganisationRepository orgRepository)
         {
             _userRepository = userRepository;
             _otpRepo = otpRepo;
             _email = email;
+            _orgRepository = orgRepository;
         }
+
+
 
         public async Task<LoggedInUserDto?> LoginAsync(UserLoginRequestDto login)
         {
@@ -77,9 +82,62 @@ namespace AMLRS.Application.Services.User
             if (otpEntity == null || string.IsNullOrEmpty(otp))
                 throw new Exception("Invalid or expired OTP");
 
+            if (otpEntity.OtpHash != otp)
+                throw new Exception("Invalid OTP");
+
             otpEntity.IsUsed = true;
             await _otpRepo.MarkUsedAsync(otpEntity);
 
+            return true;
+        }
+
+        public async Task<UsertblDto?> GetUserByIdAsync(int userId)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null) 
+                return null;
+
+            var org = await _orgRepository.GetByIdAsync(user.OrgId);
+            if (org == null)
+                throw new Exception($"organisation does not exist.");
+
+            return new UsertblDto
+            {
+                UserdtoId = user.UserId,
+                OrgName = org.OrgLegalName,
+                Name = user.PreferredName,
+                EmailId = user.Email,
+                Role = user.Role
+            };
+        }
+
+        public async Task<UsertblDto?> UpdateUserAsync(int id, UsertblDto userDto)
+        {
+            var org = await _orgRepository.GetOrganisationByOrgNameAsync(userDto.OrgName);
+            if (org == null)
+                throw new Exception($"{userDto.OrgName} does not exist.");
+
+            var userEntity = new Usertbl
+            {
+                UserId = id,
+                PreferredName = userDto.Name,
+                Email = userDto.EmailId,
+                Role = userDto.Role,
+                OrgId = org.OrgId
+            };
+
+            await _userRepository.UpdateAsync(userEntity);
+            return userDto;
+        }
+
+        public async Task<bool> DeleteAdminAsync(int id)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+
+            if (user == null)
+                throw new Exception($"User does not exist.");
+
+            await _userRepository.DeleteAsync(user);
             return true;
         }
     }

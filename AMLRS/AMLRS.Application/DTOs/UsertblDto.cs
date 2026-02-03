@@ -1,13 +1,10 @@
 ﻿using AMLRS.Core.Domains.Users.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AMLRS.Application.DTOs
 {
-    public class AdminDto
+    public class UsertblDto
     {
-        public int AdminId { get; set; }
+        public int UserdtoId { get; set; }
         public string OrgName { get; set; } 
         public string Name { get; set; } 
         public string EmailId { get; set; } 

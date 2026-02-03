@@ -1,6 +1,5 @@
 ﻿using AMLRS.Core.Abstraction.Reposotory;
 using AMLRS.Core.Abstraction.Reposotory.User;
-using AMLRS.Core.Domains.OrganisationAdmins.Entites;
 using AMLRS.Core.Domains.Users.Entities;
 using AMLRS.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
