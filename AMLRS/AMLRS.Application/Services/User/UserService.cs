@@ -3,6 +3,9 @@ using AMLRS.Application.Interfaces.Services.User;
 using AMLRS.Core.Abstraction.Reposotory.User;
 using AMLRS.Core.Domains.Users.Entities;
 using AMLRS.Core.Domains.Users.Entities.Register;
+using AMLRS.Core.Domains.Users.Enums;
+using AMLRS.Core.QueryModels;
+using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography;
 
 namespace AMLRS.Application.Services.User
@@ -90,7 +93,7 @@ namespace AMLRS.Application.Services.User
             return true;
         }
 
-        public async Task<UsertblDto?> GetUserByIdAsync(int userId)
+        public async Task<InviteUserRequestDto?> GetUserByIdAsync(int userId)
         {
             var user = await _userRepository.GetByIdAsync(userId);
             if (user == null) 
@@ -100,9 +103,8 @@ namespace AMLRS.Application.Services.User
             if (org == null)
                 throw new Exception($"organisation does not exist.");
 
-            return new UsertblDto
+            return new InviteUserRequestDto
             {
-                UserdtoId = user.UserId,
                 OrgName = org.OrgLegalName,
                 Name = user.UserName,
                 EmailId = user.Email,
@@ -110,7 +112,7 @@ namespace AMLRS.Application.Services.User
             };
         }
 
-        public async Task<UsertblDto?> UpdateUserAsync(int id, UsertblDto userDto)
+        public async Task<InviteUserRequestDto?> UpdateUserAsync(int id, InviteUserRequestDto userDto)
         {
             var org = await _orgRepository.GetOrganisationByOrgNameAsync(userDto.OrgName);
             if (org == null)
@@ -138,6 +140,34 @@ namespace AMLRS.Application.Services.User
 
             await _userRepository.DeleteAsync(user);
             return true;
+        }
+ public async Task<PagedResult<InviteUserRequestDto>> GetAllUsersAsync(CaseQueryParams queryParams)
+        {
+            var query = _userRepository.GetAllUsersQueryable();
+
+            // Generic Search (optional)
+            query = GenericFilterHelper.ApplySearch(
+                query,
+                queryParams?.SearchText,
+                a => a.Email,
+                a=>a.UserName
+            );
+
+            var projectedQuery = query
+                    .OrderByDescending(a => a.UserId)
+                    .Select(a => new InviteUserRequestDto
+                    {
+                        Name = a.UserName,
+                        EmailId = a.Email,
+                        Role = a.Role,                         
+                        OrgName = a.Organisation.OrgLegalName
+                    });
+
+
+            return await projectedQuery.ToPagedResultAsync(
+                queryParams?.PageNumber ?? 1,
+                queryParams?.PageSize ?? 20
+            );
         }
     }
 }

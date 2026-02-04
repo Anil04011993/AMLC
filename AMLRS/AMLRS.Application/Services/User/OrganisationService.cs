@@ -16,36 +16,36 @@ namespace AMLRS.Application.Services.User
 
         // ------------------- Organisation -------------------
 
-        public async Task<IEnumerable<OrganisationDto>> GetAllOrganisationsAsync()
+        public async Task<IEnumerable<OrganisationResponseDto>> GetAllOrganisationsAsync()
         {
             var organisations = await _orgRepository.GetAllAsync();
 
-            return organisations.Select(o => new OrganisationDto
+            return organisations.Select(o => new OrganisationResponseDto
             {
                 OrgId = o.OrgId,
                 OrgLegalName = o.OrgLegalName,
-                DateOfCreation = o.DateOfCreation,
+                CreatedOn = o.DateOfCreation,
                 PrimaryContactName = o.PrimaryContactName,
                 PrimaryContactEmail = o.PrimaryContactEmail
             });
         }
 
-        public async Task<OrganisationDto?> GetOrganisationByIdAsync(int orgId)
+        public async Task<OrganisationResponseDto?> GetOrganisationByIdAsync(int orgId)
         {
             var org = await _orgRepository.GetByIdAsync(orgId);
             if (org == null) return null;
 
-            return new OrganisationDto
+            return new OrganisationResponseDto
             {
                 OrgId = org.OrgId,
                 OrgLegalName = org.OrgLegalName,
-                DateOfCreation = org.DateOfCreation,
+                CreatedOn = org.DateOfCreation,
                 PrimaryContactName = org.PrimaryContactName,
                 PrimaryContactEmail = org.PrimaryContactEmail
             };
         }
 
-        public async Task<OrganisationDto> AddOrganisationAsync(OrganisationDto organisationDto)
+        public async Task<OrganisationResponseDto> AddOrganisationAsync(OrganisationDto organisationDto)
         {
             var organisation = new Organisation
             {
@@ -66,11 +66,11 @@ namespace AMLRS.Application.Services.User
 
             await _orgRepository.AddAsync(organisation);
 
-            return new OrganisationDto
+            return new OrganisationResponseDto
             {
                 OrgId = organisation.OrgId,
                 OrgLegalName = organisation.OrgLegalName,
-                DateOfCreation = organisation.DateOfCreation,
+                CreatedOn = organisation.DateOfCreation,
                 PrimaryContactName = organisation.PrimaryContactName,
                 PrimaryContactEmail = organisation.PrimaryContactEmail
             };
@@ -87,7 +87,7 @@ namespace AMLRS.Application.Services.User
                 OrgLegalName = orgDto.OrgLegalName,
                 PrimaryContactEmail = orgDto.PrimaryContactEmail,
 
-                OrgId = orgDto.OrgId
+                OrgId = id
             };
 
             await _orgRepository.UpdateAsync(OrgEntity);

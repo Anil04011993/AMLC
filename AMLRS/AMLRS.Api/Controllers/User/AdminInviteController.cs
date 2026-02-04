@@ -21,10 +21,21 @@ namespace AMLRS.Api.Controllers.User
         }
 
         [HttpPost(ApiRoutes.Invite)]
-        public async Task<IActionResult> Invite([FromBody] UsertblDto adminDto)
+        public async Task<IActionResult> Invite([FromBody] InviteUserRequestDto adminDto)
         {
             try
-            {               
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new ApiResponse<object>
+                    {
+                        StatusCode = StatusCodes.Status400BadRequest,
+                        Message = ModelState.Values
+                            .SelectMany(v => v.Errors)
+                            .First().ErrorMessage
+                    });
+                }
+
                 await _service.InviteUserAsync(adminDto);
             }
             catch (Exception) { throw; }           
@@ -32,7 +43,7 @@ namespace AMLRS.Api.Controllers.User
             return Ok(new ApiResponse<object>
             {
                 StatusCode = StatusCodes.Status200OK,
-                Message = "User Invited",
+                Message = "Invitation sent successfully",
                 Data = true
             });
         }

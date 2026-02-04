@@ -9,6 +9,7 @@ namespace AMLRS.Core.Abstraction.Reposotory.User
     public interface IUserRepository : IRepository<Usertbl, int>
     {
         Task<Usertbl?> LoginAsync(string Email, string Password);
-        Task<Usertbl?> GetByEmailAsync(string email);        
+        Task<Usertbl?> GetByEmailAsync(string email);
+        IQueryable<Usertbl?> GetAllUsersQueryable();
     }
 }

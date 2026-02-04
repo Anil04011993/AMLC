@@ -3,6 +3,7 @@ using AMLRS.Application.Interfaces.Services.User;
 using AMLRS.Core.Abstraction.Reposotory.User;
 using AMLRS.Core.Domains.Users.Entities;
 using AMLRS.Core.Domains.Users.Entities.Register;
+using System.ComponentModel;
 using System.Security.Cryptography;
 using System.Xml.Linq;
 
@@ -30,7 +31,7 @@ namespace AMLRS.Application.Services.User
             _email = email;
         }
 
-        public async Task RegisterAsync(string token, string email)
+        public async Task<RegisterResponseDto> RegisterAsync(string token)
         {
             try
             {
@@ -47,7 +48,7 @@ namespace AMLRS.Application.Services.User
 
                 var otpEntity = new EmailOtp
                 {
-                    Email = email,
+                    Email = invite.Email,
                     OtpHash = otp,
                     //OtpHash = BCrypt.Net.BCrypt.HashPassword(otp),
                     ExpiresAt = DateTime.UtcNow.AddMinutes(5),
@@ -58,7 +59,7 @@ namespace AMLRS.Application.Services.User
                 await _otpRepo.AddAsync(otpEntity);
 
                 await _email.SendAsync(
-                    email,
+                    invite.Email,
                     "Register One Time Password",
                     $"""
                 Dear User,
@@ -67,6 +68,8 @@ namespace AMLRS.Application.Services.User
                 Do NOT share this OTP with anyone.
                 """
                 );
+
+                return new RegisterResponseDto { Email = invite.Email };
             }
             catch (Exception)
             {
@@ -153,11 +156,11 @@ namespace AMLRS.Application.Services.User
             return true;
         }
 
-        public async Task<bool> SetPasswod(string email, string password)
+        public async Task<bool> SetPasswod(string token, string password)
         {
             try
             {
-                var invite = await _inviteRepo.GetByEmailAsync(email);
+                var invite = await _inviteRepo.GetByTokenAsync(token);
 
                 if (invite == null) throw new Exception();
 
@@ -165,7 +168,7 @@ namespace AMLRS.Application.Services.User
                 {
                     UserName = invite.UserName,
                     OrgId = invite.OrgId,
-                    Email = email,
+                    Email = invite.Email,
                     Password = password,
                     IsActive = true,
                     Role = invite.Role,
@@ -173,7 +176,6 @@ namespace AMLRS.Application.Services.User
                 };
 
                 await _userRepo.AddAsync(user);
-
 
             }
             catch (Exception)
