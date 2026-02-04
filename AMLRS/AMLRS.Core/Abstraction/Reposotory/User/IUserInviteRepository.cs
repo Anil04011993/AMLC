@@ -10,6 +10,7 @@ namespace AMLRS.Core.Abstraction.Reposotory.User
         Task<UserInvite?> GetByTokenAsync(string token);
         Task AddAsync(UserInvite invite);
         Task MarkUsedAsync(UserInvite invite);
+        Task<UserInvite?> GetByEmailAsync(string email);
     }
 
 }

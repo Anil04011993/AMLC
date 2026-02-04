@@ -1,6 +1,5 @@
 ﻿using AMLRS.Core.Abstraction.Reposotory;
 using AMLRS.Core.Abstraction.Reposotory.User;
-using AMLRS.Core.Domains.OrganisationAdmins.Entites;
 using AMLRS.Core.Domains.Users.Entities;
 using AMLRS.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
@@ -32,10 +31,9 @@ namespace AMLRS.Infrastructure.Repositories.User
             return new Usertbl
             {
                 UserId = user.UserId,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
+                UserName = user.UserName,
                 Email = user.Email,
-                Gender = Core.Domains.Users.Enums.Gender.Male,
+                //Gender = Core.Domains.Users.Enums.Gender.Male,
                 Role = role.RoleName,
             };
         }

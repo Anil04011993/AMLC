@@ -2,11 +2,7 @@ using AMLRS.Api;
 using AMLRS.Api.Middleware;
 using AMLRS.Api.Middleware.AMLRS.Api.Middleware;
 using AMLRS.Application.DTOs;
-using AMLRS.Application.Interfaces.Services.User;
-using AMLRS.Application.Services.User;
-using AMLRS.Core.Abstraction.Reposotory;
 using AMLRS.Infrastructure.Logging;
-using AMLRS.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -26,9 +22,6 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAppDI(builder.Configuration);
 
-// Register core application services (ensure controllers can resolve dependencies)
-builder.Services.AddScoped<IUserService, UserService>();
-
 builder.Services.AddOpenApi();
 
 builder.Services.AddCors(options =>
@@ -47,13 +40,8 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-//Correct order:
-//Exception handling
-//CorrelationId enrichment
-//Authentication
-//Authorization
-//Request logging
-//Endpoints
+Console.WriteLine("Test");
+
 // 1. Exception handling (FIRST)
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseStatusCodePages(async context =>
@@ -101,3 +89,11 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+//Correct order:
+//Exception handling
+//CorrelationId enrichment
+//Authentication
+//Authorization
+//Request logging
+//Endpoints
