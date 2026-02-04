@@ -51,7 +51,7 @@ namespace AMLRS.Api.Controllers.User
             });
         }
 
-        [HttpGet(ApiRoutes.getalluser)]
+        [HttpGet(ApiRoutes.Getalluser)]
         public async Task<IActionResult> GetAllusers([FromQuery] CaseQueryParams queryParam)
         {
             var admins = await _userService.GetAllUsersAsync(queryParam);

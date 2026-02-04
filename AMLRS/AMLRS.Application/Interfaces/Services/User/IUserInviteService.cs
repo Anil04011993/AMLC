@@ -5,7 +5,7 @@ namespace AMLRS.Application.Interfaces.Services.User
 {
     public interface IUserInviteService
     {
-        Task InviteUserAsync(UsertblDto adminDto);
+        Task InviteUserAsync(InviteUserRequestDto adminDto);
     }
 
 }

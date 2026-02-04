@@ -21,7 +21,7 @@ namespace AMLRS.Api.Controllers.User
         [HttpPost(ApiRoutes.VerifyToken)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> ValidateToken([FromBody] VerifyTokenDTO req)
+        public async Task<IActionResult> ValidateToken([FromBody] RegisterRequestDto req)
         {
             var result = await _service.ValidateTokenAsync(req.Token);
 
@@ -47,7 +47,18 @@ namespace AMLRS.Api.Controllers.User
         [HttpPost(ApiRoutes.SignUp)]
         public async Task<IActionResult> Register(RegisterRequestDto req)
         {
-            await _service.RegisterAsync(req.Token, req.Email);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .First().ErrorMessage
+                });
+            }
+
+            await _service.RegisterAsync(req.Token);
             
             return Ok(new ApiResponse<object>
             {
@@ -60,6 +71,16 @@ namespace AMLRS.Api.Controllers.User
         [HttpPost(ApiRoutes.VerifyRegOtp)]
         public async Task<IActionResult> VerifyOtp(VerifyOtpRequestDto req)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .First().ErrorMessage
+                });
+            }
 
             var result = await _service.VerifyOtpAndCreateUserAsync(req.Email, req.Otp);
             if (!result)
@@ -75,7 +96,18 @@ namespace AMLRS.Api.Controllers.User
         [HttpPost(ApiRoutes.SetPassword)]
         public async Task<IActionResult> SetPassword(SetPwdDto req)
         {
-            var result = await _service.SetPasswod(req.Email, req.Password);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .First().ErrorMessage
+                });
+            }
+
+            var result = await _service.SetPasswod(req.Token, req.Password);
 
             if (!result)
                 throw new UnauthorizedAccessException("Cannot set password");

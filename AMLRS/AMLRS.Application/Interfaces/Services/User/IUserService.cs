@@ -11,6 +11,6 @@ namespace AMLRS.Application.Interfaces.Services.User
     {
         Task<LoggedInUserDto?> LoginAsync(UserLoginRequestDto login);
         Task<bool> VerifyOtpAndLoginAsync(string email, string otp);
-        Task<PagedResult<UsertblDto>> GetAllUsersAsync(CaseQueryParams queryParams);
+        Task<PagedResult<InviteUserRequestDto>> GetAllUsersAsync(CaseQueryParams queryParams);
     }
 }

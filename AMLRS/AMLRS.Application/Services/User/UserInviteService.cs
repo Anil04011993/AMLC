@@ -22,7 +22,7 @@ namespace AMLRS.Application.Services.User
             _userRepo = userRepo;
         }
 
-        public async Task InviteUserAsync(UsertblDto userDto)
+        public async Task InviteUserAsync(InviteUserRequestDto userDto)
         {
             try
             {       

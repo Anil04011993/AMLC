@@ -93,7 +93,7 @@ namespace AMLRS.Application.Services.User
             return true;
         }
 
-        public async Task<UsertblDto?> GetUserByIdAsync(int userId)
+        public async Task<InviteUserRequestDto?> GetUserByIdAsync(int userId)
         {
             var user = await _userRepository.GetByIdAsync(userId);
             if (user == null) 
@@ -103,9 +103,8 @@ namespace AMLRS.Application.Services.User
             if (org == null)
                 throw new Exception($"organisation does not exist.");
 
-            return new UsertblDto
+            return new InviteUserRequestDto
             {
-                UserdtoId = user.UserId,
                 OrgName = org.OrgLegalName,
                 Name = user.UserName,
                 EmailId = user.Email,
@@ -113,7 +112,7 @@ namespace AMLRS.Application.Services.User
             };
         }
 
-        public async Task<UsertblDto?> UpdateUserAsync(int id, UsertblDto userDto)
+        public async Task<InviteUserRequestDto?> UpdateUserAsync(int id, InviteUserRequestDto userDto)
         {
             var org = await _orgRepository.GetOrganisationByOrgNameAsync(userDto.OrgName);
             if (org == null)
@@ -142,7 +141,7 @@ namespace AMLRS.Application.Services.User
             await _userRepository.DeleteAsync(user);
             return true;
         }
- public async Task<PagedResult<UsertblDto>> GetAllUsersAsync(CaseQueryParams queryParams)
+ public async Task<PagedResult<InviteUserRequestDto>> GetAllUsersAsync(CaseQueryParams queryParams)
         {
             var query = _userRepository.GetAllUsersQueryable();
 
@@ -156,12 +155,11 @@ namespace AMLRS.Application.Services.User
 
             var projectedQuery = query
                     .OrderByDescending(a => a.UserId)
-                    .Select(a => new UsertblDto
+                    .Select(a => new InviteUserRequestDto
                     {
-                        UserdtoId = a.UserId,
                         Name = a.UserName,
                         EmailId = a.Email,
-                        Role = a.Role,                         // enum → enum ✔
+                        Role = a.Role,                         
                         OrgName = a.Organisation.OrgLegalName
                     });
 

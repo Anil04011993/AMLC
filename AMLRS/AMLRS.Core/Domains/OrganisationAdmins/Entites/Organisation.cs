@@ -21,6 +21,8 @@ namespace AMLRS.Core.Domains.OrganisationAdmins.Entites
         public string PrimaryContactPhone { get; set; }
         public string? SupportEmail { get; set; }
 
+        public bool IsActive { get; set; }
+
         public ICollection<Usertbl> Users { get; set; } = new HashSet<Usertbl>();
     }
 }

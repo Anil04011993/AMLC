@@ -17,13 +17,13 @@
         public const string VerifyLoginOtp = "verify_otp_login";
         public const string VerifyRegOtp = "verify_otp_signup";
 
-        public const string Update_admin = "api/update_admin/{id:int}";
-        public const string Update_organisation = "api/update_organisation/{id:int}";
-        public const string Update_user = "api/update_user/{id:int}";
+        public const string Update_admin = "update_admin/{id:int}";
+        public const string Update_organisation = "update_organisation/{id:int}";
+        public const string Update_user = "update_user/{id:int}";
 
-        public const string Delete_admin = "api/delete_admin/{id:int}";
-        public const string Delete_organisation = "api/delete_organisation/{id:int}";
-        public const string Delete_user = "api/delete_user/{id:int}";
-		public const string getalluser = "get_all_user";
+        public const string Delete_admin = "delete_admin/{id:int}";
+        public const string Delete_organisation = "delete_organisation/{id:int}";
+        public const string Delete_user = "delete_user/{id:int}";
+		public const string Getalluser = "get_all_user";
     }
 }
