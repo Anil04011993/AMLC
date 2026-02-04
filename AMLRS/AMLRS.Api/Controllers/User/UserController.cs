@@ -1,6 +1,8 @@
 ﻿using AMLRS.Application.Common;
 using AMLRS.Application.DTOs;
 using AMLRS.Application.Interfaces.Services.User;
+using AMLRS.Application.Services.User;
+using AMLRS.Core.QueryModels;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -48,5 +50,28 @@ namespace AMLRS.Api.Controllers.User
                 Data = true
             });
         }
+
+        [HttpGet(ApiRoutes.getalluser)]
+        public async Task<IActionResult> GetAllusers([FromQuery] CaseQueryParams queryParam)
+        {
+            var admins = await _userService.GetAllUsersAsync(queryParam);
+
+            if (admins == null || admins.Data == null || !admins.Data.Any())
+            {
+                return NotFound(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status404NotFound,
+                    Message = "No user found",
+                    Data = null
+                });
+            }
+            return Ok(new ApiResponse<object>
+            {
+                StatusCode = StatusCodes.Status200OK,
+                Message = "All users",
+                Data = admins
+            });
     }
+    }
+
 }

@@ -1,4 +1,5 @@
-﻿using AMLRS.Core.Domains.Users.Enums;
+﻿using AMLRS.Core.Domains.OrganisationAdmins.Entites;
+using AMLRS.Core.Domains.Users.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace AMLRS.Core.Domains.Users.Entities
@@ -21,7 +22,9 @@ namespace AMLRS.Core.Domains.Users.Entities
         public RoleName Role { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
-        
+        public Organisation Organisation { get; set; }
+
+
         //public Auth_and_Security Auth_and_Security { get; set; }
 
         //public Role_and_permission Role_and_permission { get; set; }

@@ -1,5 +1,6 @@
 ﻿using AMLRS.Core.Abstraction.Reposotory;
 using AMLRS.Core.Abstraction.Reposotory.User;
+using AMLRS.Core.Domains.OrganisationAdmins.Entites;
 using AMLRS.Core.Domains.Users.Entities;
 using AMLRS.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
@@ -52,6 +53,10 @@ namespace AMLRS.Infrastructure.Repositories.User
                 .Select(x => x.Role)
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
+        }
+        public IQueryable<Usertbl> GetAllUsersQueryable()
+        {
+            return _context.Users;
         }
     }
 }
