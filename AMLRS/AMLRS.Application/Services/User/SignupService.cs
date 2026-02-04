@@ -4,6 +4,7 @@ using AMLRS.Core.Abstraction.Reposotory.User;
 using AMLRS.Core.Domains.Users.Entities;
 using AMLRS.Core.Domains.Users.Entities.Register;
 using System.Security.Cryptography;
+using System.Xml.Linq;
 
 namespace AMLRS.Application.Services.User
 {
@@ -95,19 +96,32 @@ namespace AMLRS.Application.Services.User
                 };
             }
 
+            var org = await _orgRepo.GetByIdAsync(invite.OrgId);
+            if (org == null)
+                return new TokenValidationResult
+                {
+                    IsValid = false,
+                    Message = "Organisation not found."
+                };
+
             return new TokenValidationResult
             {
                 IsValid = true,
-                Message = "Valid link"
+                Message = "Valid link",
+                CreatedUserOnToken = new CreatedUserOnToken
+                {
+                    OrgName = org.OrgLegalName,
+                    UserName = invite.UserName,
+                    Email = invite.Email,
+                    Role = invite.Role,
+                }
             };
         }
 
 
         public async Task<bool> VerifyOtpAndCreateUserAsync(
-            string name,
             string email,
-            string otp,
-            string password)
+            string otp)
         {
             try
             {
@@ -130,27 +144,41 @@ namespace AMLRS.Application.Services.User
                 otpEntity.IsUsed = true;
                 await _otpRepo.MarkUsedAsync(otpEntity);
 
-                //get org details
-                //var org = await _orgRepo.GetByIdAsync(inviteEntity.OrgId);
-                //if (org == null)
-                //    throw new Exception($"Organisation does not exist.");
-                //role from payload?
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return true;
+        }
+
+        public async Task<bool> SetPasswod(string email, string password)
+        {
+            try
+            {
+                var invite = await _inviteRepo.GetByEmailAsync(email);
+
+                if (invite == null) throw new Exception();
 
                 var user = new Usertbl
                 {
-                    PreferredName = name,
-                    OrgId = 5,//org.OrgId,
+                    UserName = invite.UserName,
+                    OrgId = invite.OrgId,
                     Email = email,
                     Password = password,
                     IsActive = true,
-                    Role = inviteEntity.Role,
+                    Role = invite.Role,
                     CreatedAt = DateTime.UtcNow
                 };
 
                 await _userRepo.AddAsync(user);
+
+
             }
             catch (Exception)
             {
+
                 throw;
             }
             return true;

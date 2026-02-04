@@ -3,6 +3,7 @@ using AMLRS.Application.Interfaces.Services.User;
 using AMLRS.Core.Abstraction.Reposotory.User;
 using AMLRS.Core.Domains.Users.Entities;
 using AMLRS.Core.Domains.Users.Entities.Register;
+using System.Xml.Linq;
 
 namespace AMLRS.Application.Services.User
 {
@@ -24,9 +25,7 @@ namespace AMLRS.Application.Services.User
         public async Task InviteUserAsync(UsertblDto userDto)
         {
             try
-            {                
-                await AddUser(userDto);
-
+            {       
                 var org = await _orgRepo.GetOrganisationByOrgNameAsync(userDto.OrgName);
 
                 if (org == null)
@@ -38,6 +37,7 @@ namespace AMLRS.Application.Services.User
                 {
                     Email = userDto.EmailId,
                     InviteToken = token,
+                    UserName = userDto.Name,
                     ExpiresAt = DateTime.UtcNow.AddDays(1),
                     Role = userDto.Role,
                     IsUsed = false,
@@ -92,24 +92,24 @@ namespace AMLRS.Application.Services.User
             }            
         }
 
-        public async Task<UsertblDto> AddUser(UsertblDto userDto)
-        {
+        //public async Task<UsertblDto> AddUser(UsertblDto userDto)
+        //{
 
-            var org = await _orgRepo.GetOrganisationByOrgNameAsync(userDto.OrgName);
+        //    var org = await _orgRepo.GetOrganisationByOrgNameAsync(userDto.OrgName);
 
-            var admin = new Usertbl
-            {
-                UserId = userDto.UserdtoId,
-                Email = userDto.EmailId,
-                PreferredName = userDto.Name,
-                OrgId = org.OrgId,
-                Role = userDto.Role,
-            };
+        //    var admin = new Usertbl
+        //    {
+        //        UserId = userDto.UserdtoId,
+        //        Email = userDto.EmailId,
+        //        PreferredName = userDto.Name,
+        //        OrgId = org.OrgId,
+        //        Role = userDto.Role,
+        //    };
 
-            await _userRepo.AddAsync(admin);
+        //    await _userRepo.AddAsync(admin);
 
-            return userDto;
-        }
+        //    return userDto;
+        //}
     }
 
 }

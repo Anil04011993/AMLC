@@ -38,6 +38,8 @@ namespace AMLRS.Api.Controllers.User
             {
                 StatusCode = StatusCodes.Status200OK,
                 Message = result.Message, // "Valid link"
+
+                Data = result.CreatedUserOnToken
             });
         }
 
@@ -59,13 +61,28 @@ namespace AMLRS.Api.Controllers.User
         public async Task<IActionResult> VerifyOtp(VerifyOtpRequestDto req)
         {
 
-            var result = await _service.VerifyOtpAndCreateUserAsync(req.Name, req.Email, req.Otp, req.Password);
+            var result = await _service.VerifyOtpAndCreateUserAsync(req.Email, req.Otp);
             if (!result)
                 throw new UnauthorizedAccessException("Invalid or expired OTP");
             return Ok(new ApiResponse<object>
             {
                 StatusCode = StatusCodes.Status200OK,
-                Message = "Signup completed",
+                Message = "Otp verified successfully",
+                Data = result
+            });
+        }
+
+        [HttpPost(ApiRoutes.SetPassword)]
+        public async Task<IActionResult> SetPassword(SetPwdDto req)
+        {
+            var result = await _service.SetPasswod(req.Email, req.Password);
+
+            if (!result)
+                throw new UnauthorizedAccessException("Cannot set password");
+            return Ok(new ApiResponse<object>
+            {
+                StatusCode = StatusCodes.Status200OK,
+                Message = "User signup successfully",
                 Data = result
             });
         }

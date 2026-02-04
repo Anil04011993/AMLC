@@ -5,6 +5,7 @@
         public const string Login = "login";
         public const string SignUp = "signup";
         public const string VerifyToken = "verify_token";
+        public const string SetPassword = "set_password";
         public const string AddOrganisation = "add_organisation";
         public const string AddOrgadmin = "add_admin";
         public const string GetAllOrg = "get_organisations";

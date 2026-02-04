@@ -8,19 +8,16 @@ namespace AMLRS.Core.Domains.Users.Entities
         // Core Identity
         [Key]
         public int UserId { get; set; }
-        public int OrgId { get; set; }
-        public string? FirstName { get; set; }
-        public string? MiddleName { get; set; }
-        public string? LastName { get; set; }
-        public string? PreferredName { get; set; }
+        public int OrgId { get; set; }     
+        public string? UserName { get; set; }
         public required string Email { get; set; }
         public string? Password { get; set; }
-        public string? SecondaryEmail { get; set; }
-        public string? PhoneNumber { get; set; }
-        public string? SecondaryPhone { get; set; }
-        public DateTime? DateOfBirth { get; set; }
-        public Gender Gender { get; set; }
-        public string Nationality { get; set; }
+        //public string? SecondaryEmail { get; set; }
+        //public string? PhoneNumber { get; set; }
+        //public string? SecondaryPhone { get; set; }
+        //public DateTime? DateOfBirth { get; set; }
+        //public Gender Gender { get; set; }
+        //public string Nationality { get; set; }
         public RoleName Role { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }

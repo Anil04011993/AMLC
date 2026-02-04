@@ -66,8 +66,7 @@ namespace AMLRS.Application.Services.User
             {
                 UserId = user.UserId,
                 Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
+                UserName = user.UserName,
                 Role = user.Role.ToString(),
             };
         }
@@ -105,7 +104,7 @@ namespace AMLRS.Application.Services.User
             {
                 UserdtoId = user.UserId,
                 OrgName = org.OrgLegalName,
-                Name = user.PreferredName,
+                Name = user.UserName,
                 EmailId = user.Email,
                 Role = user.Role
             };
@@ -120,7 +119,7 @@ namespace AMLRS.Application.Services.User
             var userEntity = new Usertbl
             {
                 UserId = id,
-                PreferredName = userDto.Name,
+                UserName = userDto.Name,
                 Email = userDto.EmailId,
                 Role = userDto.Role,
                 OrgId = org.OrgId
