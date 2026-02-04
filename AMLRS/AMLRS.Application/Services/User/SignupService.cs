@@ -54,16 +54,72 @@ namespace AMLRS.Application.Services.User
 
             await _otpRepo.AddAsync(otpEntity);
 
-            await _email.SendAsync(
-                email,
-                "Register One Time Password",
-                $"""
-                Dear User,
-                Your OTP is <b>{otp}</b>.
-                This OTP expires in 5 minutes.
-                Do NOT share this OTP with anyone.
-                """
-            );
+                await _email.SendAsync(
+                    invite.Email,
+                    "Your One-Time Password (OTP)",
+                    $"""
+                    <p>Dear User,</p>
+                    <p>Your One-Time Password (OTP) is:</p>
+                    <p><strong>{otp}</strong></p>
+                    <p>This OTP is valid for <strong>5 minutes</strong>.</p>
+                    <p>Please do <strong>not</strong> share this OTP with anyone for security reasons.</p>
+                    <p>If you did not request this OTP, please ignore this email.</p>
+                    <p>Regards,<br/>
+                    AMLRS Team</p>
+                    """
+                );
+
+
+                return new RegisterResponseDto { Email = invite.Email };
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<TokenValidationResult> ValidateTokenAsync(string token)
+        {
+            var invite = await _inviteRepo.GetByTokenAsync(token);
+
+            if (invite == null || invite.IsUsed)
+            {
+                return new TokenValidationResult
+                {
+                    IsValid = false,
+                    Message = "Invalid link. Please request a new one."
+                };
+            }
+
+            if (invite.ExpiresAt < DateTime.UtcNow)
+            {
+                return new TokenValidationResult
+                {
+                    IsValid = false,
+                    Message = "The link has expired. Please request a new one"
+                };
+            }
+
+            var org = await _orgRepo.GetByIdAsync(invite.OrgId);
+            if (org == null)
+                return new TokenValidationResult
+                {
+                    IsValid = false,
+                    Message = "Organisation not found."
+                };
+
+            return new TokenValidationResult
+            {
+                IsValid = true,
+                Message = "Valid link",
+                CreatedUserOnToken = new CreatedUserOnToken
+                {
+                    OrgName = org.OrgLegalName,
+                    UserName = invite.UserName,
+                    Email = invite.Email,
+                    Role = invite.Role,
+                }
+            };
         }
 
         public async Task<bool> VerifyOtpAndCreateUserAsync(
