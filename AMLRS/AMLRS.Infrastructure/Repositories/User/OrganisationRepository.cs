@@ -24,11 +24,5 @@ namespace AMLRS.Infrastructure.Repositories.User
                 .FirstOrDefaultAsync(x => x.OrgLegalName == name);
         }
 
-        public async Task<Organisation?> GetOrganisationByOrgidAsync(int id)
-        {
-            return await _context.Organisations
-                .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.OrgId == id);
-        }
     }
 }

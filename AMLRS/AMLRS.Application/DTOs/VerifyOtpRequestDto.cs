@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace AMLRS.Application.DTOs
 {
     public class VerifyOtpRequestDto
-    {        
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Otp { get; set; }
-        public string Password { get; set; }
-        public string Role { get; set; }
-        public string Org { get; set; }
+    {
+        //[Required]
+        //[EmailAddress(ErrorMessage = "Invalid email address")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required]
+        [StringLength(6, MinimumLength = 6, ErrorMessage = "OTP must be exactly 6 digits")]
+        [RegularExpression(@"^\d{6}$", ErrorMessage = "OTP must contain only numbers")]
+        public string Otp { get; set; } = string.Empty;
     }
+
 }

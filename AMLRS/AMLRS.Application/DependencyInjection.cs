@@ -1,5 +1,4 @@
-﻿using Amazon.SimpleEmail;
-using AMLRS.Application.Interfaces.Services;
+﻿using AMLRS.Application.Interfaces.Services;
 using AMLRS.Application.Interfaces.Services.User;
 using AMLRS.Application.Interfaces.Storage;
 using AMLRS.Application.Services;
@@ -18,7 +17,8 @@ namespace AMLRS.Application
             services.AddScoped<IDocumentService, DocumentService>();
             services.AddScoped<IFileStorage, LocalFileStorage>();
 
-            services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IOrganisationService, OrganisationService>();
+            services.AddScoped<ISignupService, SignupService>();
           
             // Register SES client
             //services.AddAWSService<IAmazonSimpleEmailService>();
@@ -27,6 +27,7 @@ namespace AMLRS.Application
             //services.AddScoped<IEmailSender, SesEmailSender>();
 
             services.AddScoped<IUserInviteService, UserInviteService>();
+            services.AddScoped<IEmailSender, GmailEmailSender>();
             services.AddScoped<IEmailSender, GmailEmailSender>();
 
             return services;

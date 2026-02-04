@@ -20,6 +20,12 @@ namespace AMLRS.Infrastructure.Repositories.User
                 .FirstOrDefaultAsync(x => x.InviteToken == token);
         }
 
+        public async Task<UserInvite?> GetByEmailAsync(string email)
+        {
+            return await _db.UserInvites
+                .FirstOrDefaultAsync(x => x.Email == email);
+        }
+
         public async Task AddAsync(UserInvite invite)
         {
             _db.UserInvites.Add(invite);

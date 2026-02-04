@@ -1,5 +1,4 @@
-﻿using AMLRS.Core.Domains.OrganisationAdmins.Entities;
-using AMLRS.Core.Domains.Users.Entities;
+﻿using AMLRS.Core.Domains.Users.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace AMLRS.Core.Domains.OrganisationAdmins.Entites
@@ -22,7 +21,8 @@ namespace AMLRS.Core.Domains.OrganisationAdmins.Entites
         public string PrimaryContactPhone { get; set; }
         public string? SupportEmail { get; set; }
 
-        public ICollection<OrgAdmin> OrgAdmins { get; set; } = new List<OrgAdmin>();
+        public bool IsActive { get; set; }
+
         public ICollection<Usertbl> Users { get; set; } = new HashSet<Usertbl>();
     }
 }

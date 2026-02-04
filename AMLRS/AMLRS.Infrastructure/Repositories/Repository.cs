@@ -31,6 +31,7 @@ namespace AMLRS.Infrastructure.Repositories
         public async Task AddAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
+
             await _unitOfWork.SaveChangesAsync();
         }
 

@@ -5,7 +5,6 @@ using AMLRS.Core.Domains.Documents.Entities;
 using AMLRS.Core.Domains.EntityProfiles.Entities;
 using AMLRS.Core.Domains.KYCScreening.Entities;
 using AMLRS.Core.Domains.OrganisationAdmins.Entites;
-using AMLRS.Core.Domains.OrganisationAdmins.Entities;
 using AMLRS.Core.Domains.SARSTRReports.Entities;
 using AMLRS.Core.Domains.TransactionMonitoring.Entities;
 using AMLRS.Core.Domains.Users.Entities;
@@ -81,10 +80,8 @@ namespace AMLRS.Infrastructure.Data
         public DbSet<ExpandedRiskProfiling> ExpandedRiskProfilings { get; set; }
         public DbSet<ExtendedIdentityVerification> ExtendedIdentityVerifications { get; set; }
 
-        public DbSet<EnhancedBeneficialOwnershipMetadata> EnhancedBeneficialOwnershipMetadatas { get; set; }
-        public DbSet<OrgAdmin> Admins { get; set; }
+        public DbSet<EnhancedBeneficialOwnershipMetadata> EnhancedBeneficialOwnershipMetadatas { get; set; }        
         public DbSet<Organisation> Organisations { get; set; }
-
 
         //public DbSet<Auth_and_Security> Auth_and_Securities { get; set; }
         //public DbSet<Role_and_permission> Role_and_permissions { get; set; }

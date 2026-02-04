@@ -32,10 +32,9 @@ namespace AMLRS.Infrastructure.Repositories.User
             return new Usertbl
             {
                 UserId = user.UserId,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
+                UserName = user.UserName,
                 Email = user.Email,
-                Gender = Core.Domains.Users.Enums.Gender.Male,
+                //Gender = Core.Domains.Users.Enums.Gender.Male,
                 Role = role.RoleName,
             };
         }
@@ -54,6 +53,10 @@ namespace AMLRS.Infrastructure.Repositories.User
                 .Select(x => x.Role)
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
+        }
+        public IQueryable<Usertbl> GetAllUsersQueryable()
+        {
+            return _context.Users;
         }
     }
 }

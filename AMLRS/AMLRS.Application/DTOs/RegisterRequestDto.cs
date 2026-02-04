@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace AMLRS.Application.DTOs
@@ -7,17 +8,11 @@ namespace AMLRS.Application.DTOs
     public class RegisterRequestDto
     {
         /// <summary>
-        /// The user's Token.
+        /// The user's invitation or registration token.
         /// </summary>
-        public required string Token { get; init; }
-        /// <summary>
-        /// The user's email address which acts as a user name.
-        /// </summary>
-        public required string Email { get; init; }
-
-        /// <summary>
-        /// The user's password.
-        /// </summary>
-        public required string Password { get; init; }
+        [Required(ErrorMessage = "Token is required")]
+        [MinLength(10, ErrorMessage = "Invalid token")] // adjust length if needed
+        public string Token { get; init; } = string.Empty;
     }
+
 }
