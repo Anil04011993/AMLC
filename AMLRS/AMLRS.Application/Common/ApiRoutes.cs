@@ -24,5 +24,6 @@
         public const string Delete_admin = "api/delete_admin/{id:int}";
         public const string Delete_organisation = "api/delete_organisation/{id:int}";
         public const string Delete_user = "api/delete_user/{id:int}";
+		public const string getalluser = "get_all_user";
     }
 }

@@ -3,6 +3,9 @@ using AMLRS.Application.Interfaces.Services.User;
 using AMLRS.Core.Abstraction.Reposotory.User;
 using AMLRS.Core.Domains.Users.Entities;
 using AMLRS.Core.Domains.Users.Entities.Register;
+using AMLRS.Core.Domains.Users.Enums;
+using AMLRS.Core.QueryModels;
+using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography;
 
 namespace AMLRS.Application.Services.User
@@ -138,6 +141,35 @@ namespace AMLRS.Application.Services.User
 
             await _userRepository.DeleteAsync(user);
             return true;
+        }
+ public async Task<PagedResult<UsertblDto>> GetAllUsersAsync(CaseQueryParams queryParams)
+        {
+            var query = _userRepository.GetAllUsersQueryable();
+
+            // Generic Search (optional)
+            query = GenericFilterHelper.ApplySearch(
+                query,
+                queryParams?.SearchText,
+                a => a.Email,
+                a=>a.UserName
+            );
+
+            var projectedQuery = query
+                    .OrderByDescending(a => a.UserId)
+                    .Select(a => new UsertblDto
+                    {
+                        UserdtoId = a.UserId,
+                        Name = a.UserName,
+                        EmailId = a.Email,
+                        Role = a.Role,                         // enum → enum ✔
+                        OrgName = a.Organisation.OrgLegalName
+                    });
+
+
+            return await projectedQuery.ToPagedResultAsync(
+                queryParams?.PageNumber ?? 1,
+                queryParams?.PageSize ?? 20
+            );
         }
     }
 }
