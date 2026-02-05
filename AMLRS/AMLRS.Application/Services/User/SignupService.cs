@@ -1,9 +1,11 @@
 ﻿using AMLRS.Application.DTOs;
+using AMLRS.Application.Extentions;
 using AMLRS.Application.Interfaces.Services.User;
 using AMLRS.Core.Abstraction.Reposotory.User;
 using AMLRS.Core.Domains.SARSTRReports.Enums;
 using AMLRS.Core.Domains.Users.Entities;
 using AMLRS.Core.Domains.Users.Entities.Register;
+using Serilog;
 using System.ComponentModel;
 using System.Security.Cryptography;
 using System.Xml.Linq;
@@ -44,18 +46,9 @@ namespace AMLRS.Application.Services.User
                 if (invite.ExpiresAt < DateTime.UtcNow)
                     throw new Exception("Link expired");
 
-                // Generate OTP
-                var otp = RandomNumberGenerator.GetInt32(100000, 999999).ToString();
-
-                var otpEntity = new EmailOtp
-                {
-                    Email = invite.Email,
-                    OtpHash = otp,
-                    //OtpHash = BCrypt.Net.BCrypt.HashPassword(otp),
-                    ExpiresAt = DateTime.UtcNow.AddMinutes(5),
-                    IsUsed = false,
-                    CreatedAt = DateTime.UtcNow
-                };
+                string otp;
+                EmailOtp otpEntity;
+                OtpGenerator.GenerateOtp(invite.Email, out otp, out otpEntity);
 
                 await _otpRepo.AddAsync(otpEntity);
 

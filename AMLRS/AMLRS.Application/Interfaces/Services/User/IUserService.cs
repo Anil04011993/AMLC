@@ -13,6 +13,6 @@ namespace AMLRS.Application.Interfaces.Services.User
         Task<bool> VerifyOtpAndLoginAsync(string email, string otp);
         Task<PagedResult<InviteUserRequestDto>> GetAllUsersAsync(CaseQueryParams queryParams);
         Task<bool> ForgotPasswordAsync(string email);
-        Task<bool> ResetPasswodAsync(ResetPasswordDto req);
+        Task<ResetPwdDto> ResetPasswodAsync(ResetPasswordDto req);
     }
 }
