@@ -6,7 +6,7 @@ namespace AMLRS.Application.DTOs
     {
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Invalid email address format.")]
-        [MaxLength(25, ErrorMessage = "Email must be 25 characters or fewer.")]
+        //[MaxLength(25, ErrorMessage = "Email must be 25 characters or fewer.")]
         public string Email { get; set; } = null!;
 
         [Required(ErrorMessage = "Password is required.")]

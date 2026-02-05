@@ -1,6 +1,8 @@
 ﻿using AMLRS.Core.Abstraction.Reposotory;
 using AMLRS.Core.Abstraction.Reposotory.User;
 using AMLRS.Core.Domains.Users.Entities;
+using AMLRS.Core.Domains.Users.Entities.Register;
+using AMLRS.Core.Domains.Users.Enums;
 using AMLRS.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +28,7 @@ namespace AMLRS.Infrastructure.Repositories.User
                 return null;
 
             var role = await GetRolesByUserIdAsync(user.UserId);
+
             if (role == null) return null;
 
             return new Usertbl
@@ -53,6 +56,13 @@ namespace AMLRS.Infrastructure.Repositories.User
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
         }
+
+        public async Task AssignRolesINUserRoleAssignmentAsync(UserRoleAssignment userRoleAssignment)
+        {
+            _context.UserRoleAssignments.Add(userRoleAssignment);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
         public IQueryable<UserWithOrgName> GetUsersWithOrgNameQueryable()
         {
             return from u in _context.Users

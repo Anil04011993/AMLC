@@ -31,9 +31,9 @@ namespace AMLRS.Application.Services.User
                 if (org == null)
                     throw new Exception($"{userDto.OrgName} does not exist.");
 
-                var isInvited = _repo.GetByEmailAsync(userDto.EmailId);
+                var isInvited = _userRepo.GetByEmailAsync(userDto.EmailId);
                
-                if (isInvited != null)
+                if (isInvited.Result != null)
                 {
                     return new InviteResponse
                     {
