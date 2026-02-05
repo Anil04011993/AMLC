@@ -60,14 +60,19 @@ namespace AMLRS.Application.Services.User
 
                 await _email.SendAsync(
                     invite.Email,
-                    "Register One Time Password",
+                    "Your One-Time Password (OTP)",
                     $"""
-                    Dear User,
-                    Your OTP is <b>{otp}</b>.
-                    This OTP expires in 5 minutes.
-                    Do NOT share this OTP with anyone.
+                    <p>Dear User,</p>
+                    <p>Your One-Time Password (OTP) is:</p>
+                    <p><strong>{otp}</strong></p>
+                    <p>This OTP is valid for <strong>5 minutes</strong>.</p>
+                    <p>Please do <strong>not</strong> share this OTP with anyone for security reasons.</p>
+                    <p>If you did not request this OTP, please ignore this email.</p>
+                    <p>Regards,<br/>
+                    AMLRS Team</p>
                     """
-                    );
+                );
+
 
                 return new RegisterResponseDto { Email = invite.Email };
             }
