@@ -79,13 +79,18 @@ namespace AMLRS.Api.Controllers.User
         }
 
         [HttpDelete]
-        [Route(ApiRoutes.Delete_admin)]
-        public async Task<ActionResult> DeleteAdmin(int id)
+        [Route(ApiRoutes.Delete_organisation)]
+        public async Task<ActionResult> DeleteOrganisation(int id)
         {
             var deleted = await _orgServices.DeleteOrgAsync(id);
 
             if (!deleted)
-                return NotFound();
+                return NotFound(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status404NotFound,
+                    Message = "Admin not found",
+                    Data = deleted
+                });
 
             return Ok(new ApiResponse<object>
             {
