@@ -36,27 +36,27 @@ namespace AMLRS.Api.Controllers.User
             });
         }
 
-        [HttpPost(ApiRoutes.VerifyLoginOtp)]
-        public async Task<IActionResult> VerifyOtp(VerifyOtpRequestDto req)
-        {
-            var result = await _userService.VerifyOtpAndLoginAsync(req.Email, req.Otp);
-            if (!result)            
-                throw new UnauthorizedAccessException("Invalid or expired OTP");
+        //[HttpPost(ApiRoutes.VerifyOtp)]
+        //public async Task<IActionResult> VerifyOtp(VerifyOtpRequestDto req)
+        //{
+        //    var result = await _userService.VerifyOtpAndLoginAsync(req.Email, req.Otp);
+        //    if (!result)            
+        //        throw new UnauthorizedAccessException("Invalid or expired OTP");
 
-            return Ok(new ApiResponse<object>
-            {
-                StatusCode = StatusCodes.Status200OK,
-                Message = "Login successful",
-                Data = true
-            });
-        }
+        //    return Ok(new ApiResponse<object>
+        //    {
+        //        StatusCode = StatusCodes.Status200OK,
+        //        Message = "Login successful",
+        //        Data = true
+        //    });
+        //}
 
         [HttpGet(ApiRoutes.Getalluser)]
         public async Task<IActionResult> GetAllusers([FromQuery] CaseQueryParams queryParam)
         {
-            var admins = await _userService.GetAllUsersAsync(queryParam);
+            var users = await _userService.GetAllUsersAsync(queryParam);
 
-            if (admins == null || admins.Data == null || !admins.Data.Any())
+            if (users == null || users.Users == null || !users.Users.Any())
             {
                 return NotFound(new ApiResponse<object>
                 {
@@ -69,7 +69,7 @@ namespace AMLRS.Api.Controllers.User
             {
                 StatusCode = StatusCodes.Status200OK,
                 Message = "All users",
-                Data = admins
+                Data = users
             });
     }
     }

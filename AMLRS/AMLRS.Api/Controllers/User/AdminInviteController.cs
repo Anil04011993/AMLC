@@ -36,16 +36,19 @@ namespace AMLRS.Api.Controllers.User
                     });
                 }
 
-                await _service.InviteUserAsync(adminDto);
+                var res = await _service.InviteUserAsync(adminDto);
+
+                return Ok(new ApiResponse<object>
+                {
+                    StatusCode = res.IsAlreadyInvited ? StatusCodes.Status409Conflict:StatusCodes.Status200OK,
+                    Message = res.Message,
+                    Data = true
+                });
+
             }
             catch (Exception) { throw; }           
 
-            return Ok(new ApiResponse<object>
-            {
-                StatusCode = StatusCodes.Status200OK,
-                Message = "Invitation sent successfully",
-                Data = true
-            });
+            
         }
     }
 

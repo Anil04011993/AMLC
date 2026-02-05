@@ -22,8 +22,6 @@ namespace AMLRS.Core.Domains.Users.Entities
         public RoleName Role { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
-        public Organisation Organisation { get; set; }
-
 
         //public Auth_and_Security Auth_and_Security { get; set; }
 

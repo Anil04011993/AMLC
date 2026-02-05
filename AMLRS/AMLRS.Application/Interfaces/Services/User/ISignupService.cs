@@ -7,7 +7,7 @@ namespace AMLRS.Application.Interfaces.Services.User
         Task<RegisterResponseDto> RegisterAsync(string token);
         Task<bool> SetPasswod(string token, string password);
         Task<TokenValidationResult> ValidateTokenAsync(string token);
-        Task<bool> VerifyOtpAndCreateUserAsync(
+        Task<bool> VerifyOtpAsync(
             string email,
             string otp
             //string role,

@@ -9,7 +9,7 @@ namespace AMLRS.Core.QueryModels
         public int TotalRecords { get; set; }
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
-        public List<T> Data { get; set; } = new();
+        public List<T> Users { get; set; } = new();
     }
 }
 

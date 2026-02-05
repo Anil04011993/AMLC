@@ -19,5 +19,6 @@ namespace AMLRS.Application.DTOs
         public string PrimaryContactEmail { get; set; }
         public string PrimaryContactPhone { get; set; }
         public string SupportEmail { get; set; }
+        public bool IsActive { get; set; }
     }
 }

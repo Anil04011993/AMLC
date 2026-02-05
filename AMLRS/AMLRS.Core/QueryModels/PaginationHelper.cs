@@ -28,7 +28,7 @@ namespace AMLRS.Core.QueryModels
                 TotalRecords = totalRecords,
                 PageNumber = pageNumber,
                 PageSize = pageSize,
-                Data = data
+                Users = data
             };
         }
     }

@@ -6,6 +6,7 @@ using AMLRS.Core.Domains.Users.Entities.Register;
 using AMLRS.Core.Domains.Users.Enums;
 using AMLRS.Core.QueryModels;
 using Microsoft.Extensions.Configuration;
+using System.ComponentModel;
 using System.Security.Cryptography;
 
 namespace AMLRS.Application.Services.User
@@ -31,10 +32,8 @@ namespace AMLRS.Application.Services.User
 
         public async Task<LoggedInUserDto?> LoginAsync(UserLoginRequestDto login)
         {
-            if (string.IsNullOrWhiteSpace(login.Email) || string.IsNullOrWhiteSpace(login.Password))
-            {
-                return null;
-            }
+            if (string.IsNullOrWhiteSpace(login.Email) || string.IsNullOrWhiteSpace(login.Password))            
+                return null;            
 
             var user = await _userRepository.LoginAsync(login.Email, login.Password);
             if (user == null) return null;
@@ -55,22 +54,20 @@ namespace AMLRS.Application.Services.User
             await _otpRepo.AddAsync(otpEntity);
 
             await _email.SendAsync(
-                login.Email,
-                "Login One Time Password",
-                $"""
-                Dear User,
-                Your OTP is <b>{otp}
-                This Otp expires in 5 mins.
-                The Otp is confidential, DO NOT share the Otp with anyone.
-                """);
-            
+                    login.Email,
+                    "Login One Time Password",
+                    $"""
+                    Dear User,
+                    Your OTP is <b>{otp}</b>.
+                    This OTP expires in 5 minutes.
+                    Do NOT share this OTP with anyone.
+                    """
+                    );
+
             // No token generation — simple login returning user details
             return new LoggedInUserDto
             {
-                UserId = user.UserId,
                 Email = user.Email,
-                UserName = user.UserName,
-                Role = user.Role.ToString(),
             };
         }
 
@@ -105,6 +102,7 @@ namespace AMLRS.Application.Services.User
 
             return new InviteUserRequestDto
             {
+                UserId = userId,
                 OrgName = org.OrgLegalName,
                 Name = user.UserName,
                 EmailId = user.Email,
@@ -141,33 +139,39 @@ namespace AMLRS.Application.Services.User
             await _userRepository.DeleteAsync(user);
             return true;
         }
- public async Task<PagedResult<InviteUserRequestDto>> GetAllUsersAsync(CaseQueryParams queryParams)
+        public async Task<PagedResult<InviteUserRequestDto>> GetAllUsersAsync(CaseQueryParams queryParams)
         {
-            var query = _userRepository.GetAllUsersQueryable();
+            var query = _userRepository.GetUsersWithOrgNameQueryable();
 
-            // Generic Search (optional)
-            query = GenericFilterHelper.ApplySearch(
-                query,
-                queryParams?.SearchText,
-                a => a.Email,
-                a=>a.UserName
-            );
+            if (!string.IsNullOrWhiteSpace(queryParams?.SearchText))
+            {
+                var search = queryParams.SearchText.Trim();
 
-            var projectedQuery = query
-                    .OrderByDescending(a => a.UserId)
-                    .Select(a => new InviteUserRequestDto
+                query = query.Where(x =>
+                    x.User.Email.Contains(search) ||
+                    x.User.UserName.Contains(search) ||
+                    x.OrgName.Contains(search)
+                );
+            }
+            if (!string.IsNullOrWhiteSpace(queryParams?.Role))
+            {
+                var roles = queryParams.Role.Trim();
+                query = query.Where(x =>
+                    x.User.Role.ToString().Contains(roles)
+                );
+            }
+            return await query
+                    .Select(x => new InviteUserRequestDto
                     {
-                        Name = a.UserName,
-                        EmailId = a.Email,
-                        Role = a.Role,                         
-                        OrgName = a.Organisation.OrgLegalName
-                    });
-
-
-            return await projectedQuery.ToPagedResultAsync(
-                queryParams?.PageNumber ?? 1,
-                queryParams?.PageSize ?? 20
-            );
+                        Name = x.User.UserName,
+                        EmailId = x.User.Email,
+                        Role = x.User.Role,
+                        OrgName = x.OrgName
+                    })
+                    .ToPagedResultAsync(
+                        queryParams?.PageNumber ?? 1,
+                        queryParams?.PageSize ?? 20
+                    );
         }
     }
 }

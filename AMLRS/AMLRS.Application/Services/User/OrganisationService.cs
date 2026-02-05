@@ -86,7 +86,18 @@ namespace AMLRS.Application.Services.User
             {
                 OrgLegalName = orgDto.OrgLegalName,
                 PrimaryContactEmail = orgDto.PrimaryContactEmail,
-
+                BrandName = orgDto.BrandName,
+                CountryOfCorp = orgDto.CountryOfCorp,
+                DateOfCreation = orgDto.DateOfCreation,
+                EntityType = orgDto.EntityType,
+                IsActive = orgDto.IsActive,
+                PrimaryContactName = orgDto.PrimaryContactName,
+                PrimaryContactPhone = orgDto.PrimaryContactPhone,
+                PrimaryOperatingCountries = orgDto.PrimaryOperatingCountries,
+                RegistrationNumber = orgDto.RegistrationNumber,
+                Regulator_LicenseNumber = orgDto.Regulator_LicenseNumber,
+                SupportEmail = orgDto.SupportEmail,
+                TaxIdentificatioNumber = orgDto.TaxIdentificatioNumber,
                 OrgId = id
             };
 
