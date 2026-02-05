@@ -143,31 +143,37 @@ namespace AMLRS.Application.Services.User
         }
  public async Task<PagedResult<InviteUserRequestDto>> GetAllUsersAsync(CaseQueryParams queryParams)
         {
-            var query = _userRepository.GetAllUsersQueryable();
+            var query = _userRepository.GetUsersWithOrgNameQueryable();
 
-            // Generic Search (optional)
-            query = GenericFilterHelper.ApplySearch(
-                query,
-                queryParams?.SearchText,
-                a => a.Email,
-                a=>a.UserName
-            );
+            if (!string.IsNullOrWhiteSpace(queryParams?.SearchText))
+            {
+                var search = queryParams.SearchText.Trim();
 
-            var projectedQuery = query
-                    .OrderByDescending(a => a.UserId)
-                    .Select(a => new InviteUserRequestDto
+                query = query.Where(x =>
+                    x.User.Email.Contains(search) ||
+                    x.User.UserName.Contains(search) ||
+                    x.OrgName.Contains(search)
+                );
+            }
+            if (!string.IsNullOrWhiteSpace(queryParams?.Role))
+            {
+                var roles = queryParams.Role.Trim();
+                query = query.Where(x =>
+                    x.User.Role.ToString().Contains(roles)
+                );
+            }
+            return await query
+                    .Select(x => new InviteUserRequestDto
                     {
-                        Name = a.UserName,
-                        EmailId = a.Email,
-                        Role = a.Role,                         
-                        OrgName = a.Organisation.OrgLegalName
-                    });
-
-
-            return await projectedQuery.ToPagedResultAsync(
-                queryParams?.PageNumber ?? 1,
-                queryParams?.PageSize ?? 20
-            );
+                        Name = x.User.UserName,
+                        EmailId = x.User.Email,
+                        Role = x.User.Role,
+                        OrgName = x.OrgName
+                    })
+                    .ToPagedResultAsync(
+                        queryParams?.PageNumber ?? 1,
+                        queryParams?.PageSize ?? 20
+                    );
         }
     }
 }
