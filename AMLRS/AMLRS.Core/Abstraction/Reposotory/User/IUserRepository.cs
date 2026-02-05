@@ -12,5 +12,7 @@ namespace AMLRS.Core.Abstraction.Reposotory.User
         Task<Usertbl?> LoginAsync(string Email, string Password);
         Task<Usertbl?> GetByEmailAsync(string email);
         IQueryable<UserWithOrgName> GetUsersWithOrgNameQueryable();
+
+        Task AssignRolesINUserRoleAssignmentAsync(UserRoleAssignment userRoleAssignment);
     }
 }

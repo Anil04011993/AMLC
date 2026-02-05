@@ -23,6 +23,5 @@ namespace AMLRS.Core.Domains.OrganisationAdmins.Entites
 
         public bool IsActive { get; set; }
 
-        public ICollection<Usertbl> Users { get; set; } = new HashSet<Usertbl>();
     }
 }

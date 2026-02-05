@@ -1,6 +1,7 @@
 ﻿using AMLRS.Application.DTOs;
 using AMLRS.Application.Interfaces.Services.User;
 using AMLRS.Core.Abstraction.Reposotory.User;
+using AMLRS.Core.Domains.SARSTRReports.Enums;
 using AMLRS.Core.Domains.Users.Entities;
 using AMLRS.Core.Domains.Users.Entities.Register;
 using System.ComponentModel;
@@ -179,6 +180,20 @@ namespace AMLRS.Application.Services.User
 
                 await _userRepo.AddAsync(user);
                 await _inviteRepo.MarkUsedAsync(invite);
+
+                var usr = await _userRepo.GetByEmailAsync(invite.Email);
+
+                if (usr == null) 
+                    throw new Exception();
+
+                var assignroletouser = new UserRoleAssignment
+                {
+                    UserId = usr.UserId,
+                    RoleId = Convert.ToInt32(invite.Role),
+                    AssignedAt = DateTime.UtcNow,
+                };
+
+                await _userRepo.AssignRolesINUserRoleAssignmentAsync(assignroletouser);
             }
             catch (Exception)
             {

@@ -71,7 +71,84 @@ namespace AMLRS.Api.Controllers.User
                 Message = "All users",
                 Data = users
             });
-    }
+        }
+
+        //Forgot password?
+
+        [HttpPost(ApiRoutes.ForgotPassword)]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto req)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .First().ErrorMessage
+                });
+            }
+
+            var res = await _userService.ForgotPasswordAsync(req.Email);
+
+            // Do NOT reveal if email exists or not
+            return Ok(new ApiResponse<object>
+            {
+                StatusCode = StatusCodes.Status200OK,
+                Message = "Otp has been sent on email.",
+                Data = res
+            });
+        }
+
+        [HttpPost(ApiRoutes.ResetPassword)]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto req)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .First().ErrorMessage
+                });
+            }
+
+            var res = await _userService.ResetPasswodAsync(req);
+
+            // Do NOT reveal if email exists or not
+            return Ok(new ApiResponse<object>
+            {
+                StatusCode = StatusCodes.Status200OK,
+                Message = "Otp has been sent on email.",
+                Data = res
+            });
+        }
+
+        [HttpPost(ApiRoutes.ChangePassword)]
+        public async Task<IActionResult> ChangePassword([FromBody] ResetPasswordDto req)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .First().ErrorMessage
+                });
+            }
+
+            var res = await _userService.ResetPasswodAsync(req);
+
+            // Do NOT reveal if email exists or not
+            return Ok(new ApiResponse<object>
+            {
+                StatusCode = StatusCodes.Status200OK,
+                Message = "Otp has been sent on email.",
+                Data = res
+            });
+        }
     }
 
 }

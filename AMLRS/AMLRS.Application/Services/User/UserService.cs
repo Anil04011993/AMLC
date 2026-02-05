@@ -13,7 +13,7 @@ namespace AMLRS.Application.Services.User
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserRepository _userRepo;
         private readonly IOtpRepository _otpRepo;
         private readonly IEmailSender _email;
 
@@ -22,7 +22,7 @@ namespace AMLRS.Application.Services.User
 
         public UserService(IUserRepository userRepository, IOtpRepository otpRepo, IEmailSender email, IOrganisationRepository orgRepository)
         {
-            _userRepository = userRepository;
+            _userRepo = userRepository;
             _otpRepo = otpRepo;
             _email = email;
             _orgRepository = orgRepository;
@@ -35,7 +35,7 @@ namespace AMLRS.Application.Services.User
             if (string.IsNullOrWhiteSpace(login.Email) || string.IsNullOrWhiteSpace(login.Password))            
                 return null;            
 
-            var user = await _userRepository.LoginAsync(login.Email, login.Password);
+            var user = await _userRepo.LoginAsync(login.Email, login.Password);
             if (user == null) return null;
 
             // Generate OTP
@@ -92,7 +92,7 @@ namespace AMLRS.Application.Services.User
 
         public async Task<InviteUserRequestDto?> GetUserByIdAsync(int userId)
         {
-            var user = await _userRepository.GetByIdAsync(userId);
+            var user = await _userRepo.GetByIdAsync(userId);
             if (user == null) 
                 return null;
 
@@ -125,23 +125,23 @@ namespace AMLRS.Application.Services.User
                 OrgId = org.OrgId
             };
 
-            await _userRepository.UpdateAsync(userEntity);
+            await _userRepo.UpdateAsync(userEntity);
             return userDto;
         }
 
         public async Task<bool> DeleteAdminAsync(int id)
         {
-            var user = await _userRepository.GetByIdAsync(id);
+            var user = await _userRepo.GetByIdAsync(id);
 
             if (user == null)
                 throw new Exception($"User does not exist.");
 
-            await _userRepository.DeleteAsync(user);
+            await _userRepo.DeleteAsync(user);
             return true;
         }
         public async Task<PagedResult<InviteUserRequestDto>> GetAllUsersAsync(CaseQueryParams queryParams)
         {
-            var query = _userRepository.GetUsersWithOrgNameQueryable();
+            var query = _userRepo.GetUsersWithOrgNameQueryable();
 
             if (!string.IsNullOrWhiteSpace(queryParams?.SearchText))
             {
@@ -172,6 +172,56 @@ namespace AMLRS.Application.Services.User
                         queryParams?.PageNumber ?? 1,
                         queryParams?.PageSize ?? 20
                     );
+        }
+
+        public async Task<bool> ForgotPasswordAsync(string email)
+        {
+            // Generate OTP
+            try
+            {
+                var otp = RandomNumberGenerator.GetInt32(100000, 999999).ToString();
+
+                var otpEntity = new EmailOtp
+                {
+                    Email = email,
+                    OtpHash = otp,
+                    //OtpHash = BCrypt.Net.BCrypt.HashPassword(otp),
+                    ExpiresAt = DateTime.UtcNow.AddMinutes(5),
+                    IsUsed = false,
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                await _otpRepo.AddAsync(otpEntity);
+
+                await _email.SendAsync(
+                    email,
+                    "Register One Time Password",
+                    $"""
+                    Dear User,
+                    Your OTP is <b>{otp}</b>.
+                    This OTP expires in 5 minutes.
+                    Do NOT share this OTP with anyone.
+                    """
+                    );
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return true;
+        }
+
+
+        public async Task<bool> ResetPasswodAsync(ResetPasswordDto req)
+        {
+            var user = await _userRepo.GetByEmailAsync(req.Email);
+            if (user == null)
+                return false;
+            user.Password = req.Password;
+            await _userRepo.UpdateAsync(user);
+
+            return true;
         }
     }
 }

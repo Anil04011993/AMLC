@@ -118,6 +118,7 @@ namespace AMLRS.Api.Controllers.User
                 Data = result
             });
         }
+       
     }
 
 }

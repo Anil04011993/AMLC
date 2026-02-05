@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AMLRS.Core.Domains.Users.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace AMLRS.Core.Domains.Users.Entities
 {

@@ -3,9 +3,6 @@ using AMLRS.Core.Domains.Cases.Enums;
 using AMLRS.Core.Domains.Documents.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AMLRS.Infrastructure.Config
 {

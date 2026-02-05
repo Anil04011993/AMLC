@@ -4,8 +4,8 @@ namespace AMLRS.Application.DTOs
 {
     public class VerifyOtpRequestDto
     {
-        [Required]
-        [EmailAddress(ErrorMessage = "Invalid email address")]
+        //[Required]
+        //[EmailAddress(ErrorMessage = "Invalid email address")]
         public string Email { get; set; } = string.Empty;
 
         [Required]
