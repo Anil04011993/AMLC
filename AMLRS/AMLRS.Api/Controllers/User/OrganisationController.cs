@@ -53,7 +53,12 @@ namespace AMLRS.Api.Controllers.User
                 return BadRequest(ModelState);
 
             var createdOrganisation = await _orgServices.AddOrganisationAsync(organisationDto);
-            return CreatedAtAction(nameof(GetOrganisationById), new { id = createdOrganisation.OrgId }, createdOrganisation);
+            return Ok(new ApiResponse<object>
+            {
+                StatusCode = StatusCodes.Status201Created,
+                Message = "Organisation created successfully",
+                Data = createdOrganisation
+            });
         }
 
         [HttpPut]

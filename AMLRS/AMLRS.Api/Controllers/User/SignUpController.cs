@@ -58,17 +58,17 @@ namespace AMLRS.Api.Controllers.User
                 });
             }
 
-            await _service.RegisterAsync(req.Token);
+            var res = await _service.RegisterAsync(req.Token);
             
             return Ok(new ApiResponse<object>
             {
                 StatusCode = StatusCodes.Status200OK,
                 Message = "Otp sent",
-                Data = true
+                Data = res.Email
             });
         }
 
-        [HttpPost(ApiRoutes.VerifyRegOtp)]
+        [HttpPost(ApiRoutes.VerifyOtp)]
         public async Task<IActionResult> VerifyOtp(VerifyOtpRequestDto req)
         {
             if (!ModelState.IsValid)
@@ -82,7 +82,7 @@ namespace AMLRS.Api.Controllers.User
                 });
             }
 
-            var result = await _service.VerifyOtpAndCreateUserAsync(req.Email, req.Otp);
+            var result = await _service.VerifyOtpAsync(req.Email, req.Otp);
             if (!result)
                 throw new UnauthorizedAccessException("Invalid or expired OTP");
             return Ok(new ApiResponse<object>

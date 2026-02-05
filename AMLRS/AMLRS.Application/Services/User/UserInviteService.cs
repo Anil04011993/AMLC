@@ -22,7 +22,7 @@ namespace AMLRS.Application.Services.User
             _userRepo = userRepo;
         }
 
-        public async Task InviteUserAsync(InviteUserRequestDto userDto)
+        public async Task<InviteResponse> InviteUserAsync(InviteUserRequestDto userDto)
         {
             try
             {       
@@ -30,6 +30,17 @@ namespace AMLRS.Application.Services.User
 
                 if (org == null)
                     throw new Exception($"{userDto.OrgName} does not exist.");
+
+                var isInvited = _repo.GetByEmailAsync(userDto.EmailId);
+               
+                if (isInvited != null)
+                {
+                    return new InviteResponse
+                    {
+                        Message = "This email address has already been invited or registered.",
+                        IsAlreadyInvited = true,
+                    };
+                }
 
                 var token = Guid.NewGuid().ToString();
 
@@ -85,6 +96,12 @@ namespace AMLRS.Application.Services.User
                     userDto.EmailId,
                     subject,
                     body);
+
+                return new InviteResponse
+                {
+                    Message = "Invitation sent successfully",
+                    IsAlreadyInvited = false,
+                };
             }
             catch (Exception)
             {

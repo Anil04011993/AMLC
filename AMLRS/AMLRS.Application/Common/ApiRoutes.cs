@@ -14,8 +14,7 @@
         public const string GetOrgAdminById = "get_admin/{id:int}";
 
         public const string Invite = "invite";
-        public const string VerifyLoginOtp = "verify_otp_login";
-        public const string VerifyRegOtp = "verify_otp_signup";
+        public const string VerifyOtp = "verify_otp";
 
         public const string Update_admin = "update_admin/{id:int}";
         public const string Update_organisation = "update_organisation/{id:int}";

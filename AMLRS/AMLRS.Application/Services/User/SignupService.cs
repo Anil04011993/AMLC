@@ -62,12 +62,12 @@ namespace AMLRS.Application.Services.User
                     invite.Email,
                     "Register One Time Password",
                     $"""
-                Dear User,
-                Your OTP is <b>{otp}</b>.
-                This OTP expires in 5 minutes.
-                Do NOT share this OTP with anyone.
-                """
-                );
+                    Dear User,
+                    Your OTP is <b>{otp}</b>.
+                    This OTP expires in 5 minutes.
+                    Do NOT share this OTP with anyone.
+                    """
+                    );
 
                 return new RegisterResponseDto { Email = invite.Email };
             }
@@ -122,7 +122,7 @@ namespace AMLRS.Application.Services.User
         }
 
 
-        public async Task<bool> VerifyOtpAndCreateUserAsync(
+        public async Task<bool> VerifyOtpAsync(
             string email,
             string otp)
         {
@@ -131,10 +131,7 @@ namespace AMLRS.Application.Services.User
                 var otpEntity = await _otpRepo.GetActiveOtpAsync(email);
                 if (otpEntity == null)
                     throw new Exception("OtpEntity not found");
-                var inviteEntity = await _inviteRepo.GetByEmailAsync(email);
-                if (inviteEntity == null)
-                    throw new Exception("InviteEntity not found");
-
+               
                 //if (otpEntity == null ||
                 //    otpEntity.ExpiresAt < DateTime.UtcNow ||
                 //    !BCrypt.Net.BCrypt.Verify(otp, otpEntity.OtpHash))
@@ -176,7 +173,7 @@ namespace AMLRS.Application.Services.User
                 };
 
                 await _userRepo.AddAsync(user);
-
+                await _inviteRepo.MarkUsedAsync(invite);
             }
             catch (Exception)
             {
