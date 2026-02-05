@@ -23,6 +23,10 @@ namespace AMLRS.Infrastructure.Repositories.User
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.OrgLegalName == name);
         }
+        public IQueryable<Organisation?> GetAllOrganisationQueryable()
+        {
+            return _context.Organisations;
+        }
 
     }
 }
