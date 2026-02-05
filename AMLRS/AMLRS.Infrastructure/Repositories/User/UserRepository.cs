@@ -54,9 +54,17 @@ namespace AMLRS.Infrastructure.Repositories.User
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
         }
-        public IQueryable<Usertbl> GetAllUsersQueryable()
+        public IQueryable<UserWithOrgName> GetUsersWithOrgNameQueryable()
         {
-            return _context.Users;
+            return from u in _context.Users
+                   join o in _context.Organisations
+                       on u.OrgId equals o.OrgId
+                   orderby u.UserId descending
+                   select new UserWithOrgName
+                   {
+                       User = u,
+                       OrgName = o.OrgLegalName
+                   };
         }
     }
 }
