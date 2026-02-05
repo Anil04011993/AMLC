@@ -1,4 +1,5 @@
 ﻿using AMLRS.Application.DTOs;
+using AMLRS.Application.Extentions;
 using AMLRS.Application.Interfaces.Services.User;
 using AMLRS.Core.Abstraction.Reposotory.User;
 using AMLRS.Core.Domains.Users.Entities;
@@ -38,18 +39,9 @@ namespace AMLRS.Application.Services.User
             var user = await _userRepo.LoginAsync(login.Email, login.Password);
             if (user == null) return null;
 
-            // Generate OTP
-            var otp = RandomNumberGenerator.GetInt32(100000, 999999).ToString();
-
-            var otpEntity = new EmailOtp
-            {
-                Email = login.Email,
-                OtpHash = otp,
-                //OtpHash = BCrypt.Net.BCrypt.HashPassword(otp),
-                ExpiresAt = DateTime.UtcNow.AddMinutes(5),
-                IsUsed = false,
-                CreatedAt = DateTime.UtcNow
-            };
+            string otp;
+            EmailOtp otpEntity;
+            OtpGenerator.GenerateOtp(login.Email, out otp, out otpEntity);
 
             await _otpRepo.AddAsync(otpEntity);
 
@@ -179,23 +171,15 @@ namespace AMLRS.Application.Services.User
             // Generate OTP
             try
             {
-                var otp = RandomNumberGenerator.GetInt32(100000, 999999).ToString();
-
-                var otpEntity = new EmailOtp
-                {
-                    Email = email,
-                    OtpHash = otp,
-                    //OtpHash = BCrypt.Net.BCrypt.HashPassword(otp),
-                    ExpiresAt = DateTime.UtcNow.AddMinutes(5),
-                    IsUsed = false,
-                    CreatedAt = DateTime.UtcNow
-                };
+                string otp;
+                EmailOtp otpEntity;
+                OtpGenerator.GenerateOtp(email, out otp, out otpEntity);
 
                 await _otpRepo.AddAsync(otpEntity);
 
                 await _email.SendAsync(
                     email,
-                    "Register One Time Password",
+                    "One Time Password to Reset Password",
                     $"""
                     Dear User,
                     Your OTP is <b>{otp}</b>.
@@ -212,16 +196,35 @@ namespace AMLRS.Application.Services.User
             return true;
         }
 
-
-        public async Task<bool> ResetPasswodAsync(ResetPasswordDto req)
+        public async Task<ResetPwdDto> ResetPasswodAsync(ResetPasswordDto req)
         {
             var user = await _userRepo.GetByEmailAsync(req.Email);
             if (user == null)
-                return false;
+                return new ResetPwdDto
+                {
+                    IsResetSuccess = false,
+                    IsNewPwdSameAsOld = false,
+                };
+
+            //check new/old pwd
+
+            if (user.Password == req.Password)
+            {
+                return new ResetPwdDto
+                {
+                    IsResetSuccess = false,
+                    IsNewPwdSameAsOld = true,
+                };
+            }
+
             user.Password = req.Password;
             await _userRepo.UpdateAsync(user);
 
-            return true;
+            return new ResetPwdDto
+            {
+                IsResetSuccess = true,
+                IsNewPwdSameAsOld = false,
+            }; ;
         }
     }
 }

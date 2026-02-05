@@ -115,27 +115,35 @@ namespace AMLRS.Api.Controllers.User
 
             var res = await _userService.ResetPasswodAsync(req);
 
-            if (!res)
+            if (!res.IsResetSuccess)
             {
-                return NotFound(new ApiResponse<object>
-                {
-                    StatusCode = StatusCodes.Status404NotFound,
-                    Message = "User not found",
-                    Data = res
-                });
+                if(res.IsNewPwdSameAsOld)
+                    return NotFound(new ApiResponse<object>
+                    {
+                        StatusCode = StatusCodes.Status422UnprocessableEntity,
+                        Message = "New password cannot be the same as the old password.",
+                        Data = res.IsResetSuccess
+                    });
+                else
+                    return NotFound(new ApiResponse<object>
+                    {
+                        StatusCode = StatusCodes.Status404NotFound,
+                        Message = "User not found",
+                        Data = res.IsResetSuccess
+                    });
             }
 
             // Do NOT reveal if email exists or not
             return Ok(new ApiResponse<object>
             {
                 StatusCode = StatusCodes.Status200OK,
-                Message = "Otp has been sent on email.",
-                Data = res
+                Message = "Reset Successful",
+                Data = res.IsResetSuccess
             });
         }
 
         [HttpPost(ApiRoutes.ChangePassword)]
-        public async Task<IActionResult> ChangePassword([FromBody] ResetPasswordDto req)
+        public async Task<IActionResult> ChangePassword([FromBody] ForgotPasswordDto pwdDto)
         {
             if (!ModelState.IsValid)
             {
@@ -148,7 +156,7 @@ namespace AMLRS.Api.Controllers.User
                 });
             }
 
-            var res = await _userService.ResetPasswodAsync(req);
+            var res = await _userService.ForgotPasswordAsync(pwdDto.Email);
             if (!res)
             {
                 return NotFound(new ApiResponse<object>

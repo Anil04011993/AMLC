@@ -9,7 +9,7 @@ namespace AMLRS.Application.DTOs
         public string OrgLegalName { get; set; }
         public string BrandName { get; set; }
         public string RegistrationNumber { get; set; }
-        public string TaxIdentificatioNumber { get; set; }
+        public string TaxIdentificationNumber { get; set; }
         public string EntityType { get; set; }
         public string Regulator_LicenseNumber { get; set; }
         public string CountryOfCorp { get; set; }
