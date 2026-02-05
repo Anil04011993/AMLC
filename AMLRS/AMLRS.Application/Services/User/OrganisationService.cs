@@ -2,6 +2,7 @@
 using AMLRS.Application.Interfaces.Services.User;
 using AMLRS.Core.Abstraction.Reposotory.User;
 using AMLRS.Core.Domains.OrganisationAdmins.Entites;
+using AMLRS.Core.QueryModels;
 
 namespace AMLRS.Application.Services.User
 {
@@ -16,18 +17,35 @@ namespace AMLRS.Application.Services.User
 
         // ------------------- Organisation -------------------
 
-        public async Task<IEnumerable<OrganisationResponseDto>> GetAllOrganisationsAsync()
+        public async Task<PagedResult<OrganisationResponseDto>> GetAllOrganisationsAsync(OrgQueryParams queryParams)
         {
-            var organisations = await _orgRepository.GetAllAsync();
+        
+            var query = _orgRepository.GetAllOrganisationQueryable();
 
-            return organisations.Select(o => new OrganisationResponseDto
+            if (!string.IsNullOrWhiteSpace(queryParams?.SearchText))
             {
-                OrgId = o.OrgId,
-                OrgLegalName = o.OrgLegalName,
-                CreatedOn = o.DateOfCreation,
-                PrimaryContactName = o.PrimaryContactName,
-                PrimaryContactEmail = o.PrimaryContactEmail
-            });
+                var search = queryParams.SearchText.Trim();
+
+                query = query.Where(o =>
+                    o.OrgLegalName.Contains(search) ||
+                    o.PrimaryContactName.Contains(search) ||
+                    o.PrimaryContactEmail.Contains(search)
+                );
+            }
+            return await query
+                .OrderByDescending(o => o.DateOfCreation)
+                .Select(o => new OrganisationResponseDto
+                {
+                    OrgId = o.OrgId,
+                    OrgLegalName = o.OrgLegalName,
+                    CreatedOn = o.DateOfCreation,
+                    PrimaryContactName = o.PrimaryContactName,
+                    PrimaryContactEmail = o.PrimaryContactEmail
+                })
+                .ToPagedResultAsync(
+                    queryParams?.PageNumber ?? 1,
+                    queryParams?.PageSize ?? 20
+                );
         }
 
         public async Task<OrganisationResponseDto?> GetOrganisationByIdAsync(int orgId)

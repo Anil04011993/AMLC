@@ -2,6 +2,7 @@
 using AMLRS.Application.DTOs;
 using AMLRS.Application.Interfaces.Services.User;
 using AMLRS.Core.Domains.OrganisationAdmins.Entites;
+using AMLRS.Core.QueryModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AMLRS.Api.Controllers.User
@@ -19,9 +20,9 @@ namespace AMLRS.Api.Controllers.User
 
        
         [HttpGet(ApiRoutes.GetAllOrg)]
-        public async Task<IActionResult> GetAllOrganisations()
+             public async Task<IActionResult> GetAllOrganisations([FromQuery] OrgQueryParams queryParam)
         {
-            var organisations = await _orgServices.GetAllOrganisationsAsync();
+            var organisations = await _orgServices.GetAllOrganisationsAsync(queryParam);
 
             return Ok(new ApiResponse<object>
             {
