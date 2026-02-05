@@ -1,7 +1,6 @@
 ﻿using AMLRS.Application.Common;
 using AMLRS.Application.DTOs;
 using AMLRS.Application.Interfaces.Services.User;
-using AMLRS.Application.Services.User;
 using AMLRS.Core.QueryModels;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -116,6 +115,16 @@ namespace AMLRS.Api.Controllers.User
 
             var res = await _userService.ResetPasswodAsync(req);
 
+            if (!res)
+            {
+                return NotFound(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status404NotFound,
+                    Message = "User not found",
+                    Data = res
+                });
+            }
+
             // Do NOT reveal if email exists or not
             return Ok(new ApiResponse<object>
             {
@@ -140,6 +149,15 @@ namespace AMLRS.Api.Controllers.User
             }
 
             var res = await _userService.ResetPasswodAsync(req);
+            if (!res)
+            {
+                return NotFound(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status404NotFound,
+                    Message = "User not found",
+                    Data = res
+                });
+            }
 
             // Do NOT reveal if email exists or not
             return Ok(new ApiResponse<object>
