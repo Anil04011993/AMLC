@@ -25,5 +25,6 @@
         public const string Delete_organisation = "delete_organisation/{id:int}";
         public const string Delete_user = "delete_user/{id:int}";
 		public const string Getalluser = "get_all_user";
+		public const string Getalluserrole = "Get_all_user_role";
     }
 }
