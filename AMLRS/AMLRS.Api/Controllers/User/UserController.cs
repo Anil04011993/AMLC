@@ -1,6 +1,7 @@
 ﻿using AMLRS.Application.Common;
 using AMLRS.Application.DTOs;
 using AMLRS.Application.Interfaces.Services.User;
+using AMLRS.Application.Services.User;
 using AMLRS.Core.QueryModels;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -50,8 +51,8 @@ namespace AMLRS.Api.Controllers.User
         //    });
         //}
 
-        [HttpGet(ApiRoutes.Getalluser)]
-        public async Task<IActionResult> GetAllusers([FromQuery] CaseQueryParams queryParam)
+        [HttpGet(ApiRoutes.Getalluserrole)]
+        public async Task<IActionResult> GetAlluserswithoutrole([FromQuery] OrgQueryParams queryParam)
         {
             var users = await _userService.GetAllUsersAsync(queryParam);
 
@@ -195,6 +196,28 @@ namespace AMLRS.Api.Controllers.User
                 StatusCode = StatusCodes.Status200OK,
                 Message = "Otp has been sent on email.",
                 Data = res
+            });
+        }
+
+        [HttpGet(ApiRoutes.Getalluser)]
+        public async Task<IActionResult> GetAllusers([FromQuery] CaseQueryParams query)
+        {
+            var users = await _userService.GetAllusersroleAsync(query);
+
+            if (users == null || users.Users == null || !users.Users.Any())
+            {
+                return NotFound(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status404NotFound,
+                    Message = "No user found",
+                    Data = null
+                });
+            }
+            return Ok(new ApiResponse<object>
+            {
+                StatusCode = StatusCodes.Status200OK,
+                Message = "All users",
+                Data = users
             });
         }
     }
