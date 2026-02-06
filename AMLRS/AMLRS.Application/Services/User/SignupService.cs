@@ -163,6 +163,8 @@ namespace AMLRS.Application.Services.User
                 var user = new Usertbl
                 {
                     UserName = invite.UserName,
+                    FirstName = invite.FirstName,
+                    LastName = invite.LastName,
                     OrgId = invite.OrgId,
                     Email = invite.Email,
                     Password = password,

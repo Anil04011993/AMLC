@@ -48,6 +48,8 @@ namespace AMLRS.Application.Services.User
                 {
                     Email = userDto.EmailId,
                     InviteToken = token,
+                    FirstName = userDto.FirstName,
+                    LastName = userDto.LastName,
                     UserName = userDto.Name,
                     ExpiresAt = DateTime.UtcNow.AddDays(1),
                     Role = userDto.Role,
