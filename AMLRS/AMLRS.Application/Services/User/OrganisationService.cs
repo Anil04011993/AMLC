@@ -77,7 +77,7 @@ namespace AMLRS.Application.Services.User
                 PrimaryContactPhone = organisationDto.PrimaryContactPhone,
                 PrimaryOperatingCountries = organisationDto.PrimaryOperatingCountries,
                 RegistrationNumber = organisationDto.RegistrationNumber,
-                Regulator_LicenseNumber = organisationDto.RegistrationNumber,
+                RegulatorLicenseNumber = organisationDto.RegistrationNumber,
                 TaxIdentificatioNumber = organisationDto.TaxIdentificationNumber,
                 SupportEmail = organisationDto.SupportEmail,
             };
@@ -113,7 +113,7 @@ namespace AMLRS.Application.Services.User
                 PrimaryContactPhone = orgDto.PrimaryContactPhone,
                 PrimaryOperatingCountries = orgDto.PrimaryOperatingCountries,
                 RegistrationNumber = orgDto.RegistrationNumber,
-                Regulator_LicenseNumber = orgDto.Regulator_LicenseNumber,
+                RegulatorLicenseNumber = orgDto.Regulator_LicenseNumber,
                 SupportEmail = orgDto.SupportEmail,
                 TaxIdentificatioNumber = orgDto.TaxIdentificationNumber,
                 OrgId = id

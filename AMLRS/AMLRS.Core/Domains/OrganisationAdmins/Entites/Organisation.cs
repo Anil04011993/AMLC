@@ -12,7 +12,7 @@ namespace AMLRS.Core.Domains.OrganisationAdmins.Entites
         public string RegistrationNumber { get; set; }
         public string TaxIdentificatioNumber { get; set; }
         public string EntityType { get; set; }
-        public string Regulator_LicenseNumber { get; set; }
+        public string RegulatorLicenseNumber { get; set; }
         public string CountryOfCorp { get; set; }
         public string PrimaryOperatingCountries { get; set; }
         public DateTime DateOfCreation { get; set; }
