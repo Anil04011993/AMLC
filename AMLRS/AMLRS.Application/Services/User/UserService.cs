@@ -60,6 +60,7 @@ namespace AMLRS.Application.Services.User
             return new LoggedInUserDto
             {
                 Email = user.Email,
+                OrgID = user.OrgId
             };
         }
 
@@ -226,5 +227,6 @@ namespace AMLRS.Application.Services.User
                 IsNewPwdSameAsOld = false,
             }; ;
         }
+
     }
 }

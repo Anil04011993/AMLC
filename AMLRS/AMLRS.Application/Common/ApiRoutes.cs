@@ -10,8 +10,9 @@
         public const string ChangePassword = "change_password";
         public const string ResetPassword = "reset_password";
         public const string AddOrganisation = "add_organisation";
-        public const string GetAllOrg = "get_organisations";
+        public const string GetAllOrg = "get_all_organisations";
         public const string GetOrgById = "get_organisation/{id:int}";
+        public const string GetUserById = "get_user/{id:int}";
         public const string GetAllOrgAdmins = "get_admins";
         public const string GetOrgAdminById = "get_admin/{id:int}";
 

@@ -55,20 +55,42 @@ namespace AMLRS.Api.Controllers.User
         {
             var users = await _userService.GetAllUsersAsync(queryParam);
 
-            if (users == null || users.Users == null || !users.Users.Any())
+            if (users?.Users == null || !users.Users.Any())
             {
                 return NotFound(new ApiResponse<object>
                 {
                     StatusCode = StatusCodes.Status404NotFound,
-                    Message = "No user found",
-                    Data = null
+                    Message = "No users found",
+                    Data = Array.Empty<object>()
                 });
             }
             return Ok(new ApiResponse<object>
             {
                 StatusCode = StatusCodes.Status200OK,
-                Message = "All users",
+                Message = users.Users.Any()
+                   ? "All users retrieved successfully"
+                   : "No users found",
                 Data = users
+            });
+        }
+
+        [HttpGet(ApiRoutes.GetUserById)]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
+                return NotFound(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status404NotFound,
+                    Message = "User not found",
+                    Data = user
+                });
+
+            return Ok(new ApiResponse<object>
+            {
+                StatusCode = StatusCodes.Status200OK,
+                Message = "Get User",
+                Data = user
             });
         }
 

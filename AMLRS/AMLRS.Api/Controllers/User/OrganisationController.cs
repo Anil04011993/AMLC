@@ -20,7 +20,7 @@ namespace AMLRS.Api.Controllers.User
 
        
         [HttpGet(ApiRoutes.GetAllOrg)]
-             public async Task<IActionResult> GetAllOrganisations([FromQuery] OrgQueryParams queryParam)
+        public async Task<IActionResult> GetAllOrganisations([FromQuery] OrgQueryParams queryParam)
         {
             var organisations = await _orgServices.GetAllOrganisationsAsync(queryParam);
 
@@ -37,7 +37,12 @@ namespace AMLRS.Api.Controllers.User
         {
             var organisation = await _orgServices.GetOrganisationByIdAsync(id);
             if (organisation == null)
-                return NotFound();
+                return NotFound(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status404NotFound,
+                    Message = "Organisation not found",
+                    Data = organisation
+                });
 
             return Ok(new ApiResponse<object>
             {
@@ -73,7 +78,7 @@ namespace AMLRS.Api.Controllers.User
             return Ok(new ApiResponse<object>
             {
                 StatusCode = StatusCodes.Status200OK,
-                Message = "Admin updated",
+                Message = "Organisation details updated",
                 Data = org
             });
         }
@@ -88,14 +93,14 @@ namespace AMLRS.Api.Controllers.User
                 return NotFound(new ApiResponse<object>
                 {
                     StatusCode = StatusCodes.Status404NotFound,
-                    Message = "Admin not found",
+                    Message = "Organisation not found",
                     Data = deleted
                 });
 
             return Ok(new ApiResponse<object>
             {
                 StatusCode = StatusCodes.Status200OK,
-                Message = "Admin updated",
+                Message = "Organisation Deleted",
                 Data = deleted
             });
         }

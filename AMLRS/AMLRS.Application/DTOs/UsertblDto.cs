@@ -12,6 +12,9 @@ namespace AMLRS.Application.DTOs
         [Required(ErrorMessage = "Organization name is required")]
         public string OrgName { get; set; } = string.Empty;
 
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; } = string.Empty;
 
