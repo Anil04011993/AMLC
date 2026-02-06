@@ -11,9 +11,9 @@ namespace AMLRS.Application.Interfaces.Services.User
     {
         Task<LoggedInUserDto?> LoginAsync(UserLoginRequestDto login);
         Task<bool> VerifyOtpAndLoginAsync(string email, string otp);
-        Task<PagedResult<InviteUserRequestDto>> GetAllUsersAsync(CaseQueryParams queryParams);
+        Task<PagedResult<InviteUserRequestDto>> GetAllUsersAsync(OrgQueryParams queryParams);
         Task<bool> ForgotPasswordAsync(string email);
         Task<ResetPwdDto> ResetPasswodAsync(ResetPasswordDto req);
-        Task<InviteUserRequestDto> GetUserByIdAsync(int id);
+        Task<PagedResult<InviteUserRequestDto>> GetAllusersroleAsync(CaseQueryParams query);
     }
 }
