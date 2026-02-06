@@ -1,6 +1,7 @@
 ﻿using AMLRS.Application.Common;
 using AMLRS.Application.DTOs;
 using AMLRS.Application.Interfaces.Services.User;
+using AMLRS.Application.Services.User;
 using AMLRS.Core.QueryModels;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
