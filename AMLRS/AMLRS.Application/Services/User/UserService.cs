@@ -263,5 +263,46 @@ namespace AMLRS.Application.Services.User
         }
 
 
+        public async Task<PagedResult<InviteUserRequestDto>> GetAllusersroleAsync(CaseQueryParams queryParams)
+        {
+            var query = _userRepo.GetUsersWithOrgNameQueryable();
+
+            if (!string.IsNullOrWhiteSpace(queryParams?.SearchText))
+            {
+                var search = queryParams.SearchText.Trim();
+
+                query = query.Where(x =>
+                    x.User.Email.Contains(search) ||
+                    x.User.UserName.Contains(search) ||
+                    x.OrgName.Contains(search)
+                );
+            }
+            if (!string.IsNullOrWhiteSpace(queryParams?.Role))
+            {
+                var roles = queryParams.Role.Trim();
+                query = query.Where(x =>
+                    x.User.Role.ToString().Contains(roles)
+                );
+            }
+            if (!string.IsNullOrWhiteSpace(queryParams?.Organisation))
+            {
+                var orgnisation = queryParams.Organisation.Trim();
+                query = query.Where(x =>
+                    x.OrgName.ToString().Contains(orgnisation)
+                );
+            }
+            return await query
+                    .Select(x => new InviteUserRequestDto
+                    {
+                        Name = x.User.UserName,
+                        EmailId = x.User.Email,
+                        Role = x.User.Role,
+                        OrgName = x.OrgName
+                    })
+                    .ToPagedResultAsync(
+                        queryParams?.PageNumber ?? 1,
+                        queryParams?.PageSize ?? 20
+                    );
+        }
     }
 }
